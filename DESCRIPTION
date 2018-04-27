@@ -20,3 +20,5 @@ Imports:
     Rdpack (>= 0.7)
 RdMacros: 
     Rdpack
+URL: https://github.com/rtaph/outcomerate
+BugReports: https://github.com/rtaph/outcomerate/issues
