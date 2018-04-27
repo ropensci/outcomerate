@@ -1,5 +1,6 @@
 
-<!-- README.md is generated from README.Rmd. Please edit that file -->
+[![Travis build
+status](https://travis-ci.org/rtaph/outcomerate.svg?branch=master)](https://travis-ci.org/rtaph/outcomerate)
 
 # outcomerate
 
@@ -66,10 +67,10 @@ outcomerate(freq, e = 0.5)
 #> 0.111 0.727 0.800 0.889 0.818 0.900
 ```
 
-Dispositions do not always come in the format of a table. Survey
-analysts often work with microdata directly (where each row is an
-interview), and the `outcomerate` package allows you to obtain rates
-using such a format as well:
+Dispositions do not always come in a tabulated format. Survey analysts
+often work with microdata directly, where each row represents an
+interview. The `outcomerate` package allows you to obtain rates using
+such a format as well:
 
 ``` r
 # define a vector of dispositions
