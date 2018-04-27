@@ -1,4 +1,6 @@
 
+[![Coverage
+status](https://codecov.io/gh/rtaph/outcomerate/branch/master/graph/badge.svg)](https://codecov.io/github/rtaph/outcomerate?branch=master)
 [![Travis build
 status](https://travis-ci.org/rtaph/outcomerate.svg?branch=master)](https://travis-ci.org/rtaph/outcomerate)
 

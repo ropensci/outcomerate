@@ -15,7 +15,8 @@ Suggests:
     forcats,
     knitr,
     survey,
-    testthat
+    testthat,
+    covr
 Imports: 
     Rdpack (>= 0.7)
 RdMacros: 

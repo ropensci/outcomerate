@@ -4,7 +4,7 @@ editor_options:
   chunk_output_type: console
 ---
 
-[![Travis build status](https://travis-ci.org/rtaph/outcomerate.svg?branch=master)](https://travis-ci.org/rtaph/outcomerate)
+[![Coverage status](https://codecov.io/gh/rtaph/outcomerate/branch/master/graph/badge.svg)](https://codecov.io/github/rtaph/outcomerate?branch=master) [![Travis build status](https://travis-ci.org/rtaph/outcomerate.svg?branch=master)](https://travis-ci.org/rtaph/outcomerate)
 
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
