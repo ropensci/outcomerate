@@ -165,5 +165,6 @@ outcomerate.table <- function(x, e = NA, rate = NA, weight = NA,
 outcomerate.factor <- function(x, e = NA, rate = NA, weight = NA,
                               return_nd = FALSE) {
   outcomerate(as.character(x), e = e, rate = rate,
+              weight = weight,
               return_nd = return_nd)
 }
