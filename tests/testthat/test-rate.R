@@ -87,3 +87,16 @@ test_that("outcomerate should work on a table object", {
   tab <- table(x1)
   expect_equal(outcomerate(tab, e = 0.5), res1)
 })
+
+test_that("outcomerate should work on factors", {
+
+  # set-up factors
+  levs <- c("I", "P", "R", "NC", "O", "UH", "UO")
+  f1 <- as.factor(x1)
+  f2 <- factor(x1, levels = levs)
+  f3 <- factor(x1, levels = rev(levs), ordered = TRUE)
+
+  expect_equal(outcomerate(f1, e = 0.5), res1)
+  expect_equal(outcomerate(f2, e = 0.5), res1)
+  expect_equal(outcomerate(f3, e = 0.5), res1)
+})

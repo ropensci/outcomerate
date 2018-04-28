@@ -1,5 +1,5 @@
 Package: outcomerate
-Version: 0.0.1
+Version: 0.0.1.9000
 Title: AAPOR Survey Outcome Rates
 Description: Standardized survey outcome rate function, including the response rate, contact rate, cooperation rate, and refusal rate.
 Authors@R: person("Rafael", "Pilliard Hellwig", email = "rafael.taph@gmail.com", role = c("aut", "cre"))

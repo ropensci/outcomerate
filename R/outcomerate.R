@@ -159,3 +159,11 @@ outcomerate.table <- function(x, e = NA, rate = NA, weight = NA,
   names(freq) <- names(x)
   outcomerate(freq, e = e, rate = rate, return_nd = return_nd)
 }
+
+#' @noRd
+#' @export
+outcomerate.factor <- function(x, e = NA, rate = NA, weight = NA,
+                              return_nd = FALSE) {
+  outcomerate(as.character(x), e = e, rate = rate,
+              return_nd = return_nd)
+}
