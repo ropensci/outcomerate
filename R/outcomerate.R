@@ -168,3 +168,10 @@ outcomerate.factor <- function(x, e = NA, rate = NA, weight = NA,
               weight = weight,
               return_nd = return_nd)
 }
+
+#' Middle Earth Survey Dataset (Fake)
+#'
+#' @name middleearth
+#' @docType data
+#' @keywords data
+NULL
