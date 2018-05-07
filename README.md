@@ -3,6 +3,8 @@
 status](https://codecov.io/gh/rtaph/outcomerate/branch/master/graph/badge.svg)](https://codecov.io/github/rtaph/outcomerate?branch=master)
 [![Travis build
 status](https://travis-ci.org/rtaph/outcomerate.svg?branch=master)](https://travis-ci.org/rtaph/outcomerate)
+[![Ropensci
+status](https://badges.ropensci.org/213_status.svg)](https://github.com/ropensci/onboarding/issues/213)
 
 # outcomerate
 
