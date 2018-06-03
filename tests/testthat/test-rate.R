@@ -1,10 +1,10 @@
-context("test-rate.R")
+context("Outcome Rates")
 
 
 # vector with all possible classifications
 x1 <- c(
   "I", "P", "I", "NC", "UH", "I", "R", "UO",
-  "I", "O", "P", "I", "R", "O", "P"
+  "I", "O", "P", "I", "R", "O", "P", "NE"
 )
 
 # expected rates if e = 0.5
@@ -18,36 +18,37 @@ res1 <- c(
 
 # vectors with missing classifications
 x2 <- c("P", "NC", "UH", "R", "UO")
+e <- 13 / 14
 
 test_that("Outcome rates produce known expected results", {
-  expect_equal(outcomerate(x1, rate = "RR2"), res1["RR2"])
+  expect_equal(outcomerate(x1, e = 0.5), res1)
 })
+
+# test_that("Outcome rates produce known expected results", {
+#   e <- eligibility_rate(x1)
+#   expect_equal(outcomerate(x1, e = e), res1["RR2"])
+# })
+
 
 
 test_that("Weighted rates produce known expected results", {
-  # test with a scalar weight
-  expect_equal(outcomerate(x1, weight = 3, e = 0.5), res1)
+  # test with equal weighting
+  w <- rep(3, length(x1))
+  res1w <- stats::setNames(res1, paste0(names(res1), "w"))
+  expect_equal(outcomerate(x1, weight = w, e = 0.5), res1w)
 
   # test with unequal weights
-  w1 <- c(
+  w1 <- w2 <- c(
     3.2, 0.4, 4.9, 3.8, 1.6, 3.3, 1.3, 2.2, 3.5,
-    3.6, 0.1, 1.6, 1.1, 4.3, 2.3
+    3.6, 0.1, 1.6, 1.1, 4.3, 2.3, 0.6
   )
   expect_equal(outcomerate(x1, weight = w1, rate = "RR2"),
-    expected = c(RR2 = 19.3 / 37.2)
+    expected = c(RR2w = 19.3 / 37.2)
   )
 
   # '0' weights
-  expect_warning(outcomerate(x1, e = 0.5, weight = 0), regexp = "zero")
-})
-
-test_that("Rates requiring 'e' must stop if is not provided", {
-  r <- c("RR3", "RR4", "REF2", "CON2", "LOC2")
-  expect_error(outcomerate(x1, rate = r),
-    regexp = "parameter e must be provided"
-  )
-
-  expect_equal(outcomerate(x1, e = NA, rate = "LOC1"), res1["LOC1"])
+  w2[5] <- 0
+  expect_warning(outcomerate(x1, weight = w2), regexp = "zero")
 })
 
 test_that("Should return numerator and denominator if asked", {
@@ -91,7 +92,7 @@ test_that("outcomerate should work on a table object", {
 test_that("outcomerate should work on factors", {
 
   # set-up factors
-  levs <- c("I", "P", "R", "NC", "O", "UH", "UO")
+  levs <- c("I", "P", "R", "NC", "O", "UH", "UO", "NE")
   f1 <- as.factor(x1)
   f2 <- factor(x1, levels = levs)
   f3 <- factor(x1, levels = rev(levs), ordered = TRUE)

@@ -14,10 +14,11 @@ Definitions](https://www.aapor.org/Standards-Ethics/Standard-Definitions-\(1\).a
 of the American Association of Public Opinion Research (AAPOR).
 
 Although the mathematical formulas are straightforward, it can get
-tedious and repetitive calculating all the rates by hand. The formulas
-are similar to one another and so it is also dangerously easy to make a
-clerical mistake. The `outcomerate` package simplifies the analytically
-workflow by defining all formulas as a collection of functions.
+tedious and repetitive calculating all the rates by hand, especially for
+sub-groups of your study. The formulas are similar to one another and so
+it is also dangerously easy to make a clerical mistake. The
+`outcomerate` package simplifies the analytically workflow by defining
+all formulas as a collection of functions.
 
 ## Installation
 
@@ -30,7 +31,7 @@ devtools::install_github("rtaph/outcomerate")
 
 ## Example
 
-Let’s say you try to survey 11 people. After finishing the fieldwork,
+Let’s say you try to survey 12 people. After finishing the fieldwork,
 you tabulate all your attempts into a table of disposition outcomes:
 
 | code | disposition           | n |
@@ -41,16 +42,22 @@ you tabulate all your attempts into a table of disposition outcomes:
 | NC   | Non-contact           | 1 |
 | O    | Other                 | 1 |
 | UH   | Unknown if household  | 1 |
+| NE   | Known Ineligible      | 1 |
 | UO   | Unknown, other        | 1 |
 
 Using this table, you may wish to report some of the common survey
 outcome rates, such as:
 
-  - Response Rate
-  - Cooperation Rate
-  - Refusal Rate
-  - Contact Rate
-  - Location Rate
+  - **Response Rate:** The proportion of your sample that results in an
+    interview.
+  - **Cooperation Rate:** The proportion of people contacted who
+    participate in your survey.
+  - **Refusal Rate:** The proportion of your sample that refused to
+    participate.
+  - **Contact Rate:** The proportion of sampled cases where you manage
+    to reach the respondent.
+  - **Location Rate:** The proportion of cases (say, in an establishment
+    survey) that you manage to locate.
 
 Most of these rates come under a number of variants, having definitions
 that are standardized by AAPOR. The `outcomerate` function lets your
@@ -61,14 +68,14 @@ calculate these rates seamlessly:
 library(outcomerate)
 
 # set counts per disposition code (needs to be a named vector)
-freq <- c(I = 4, P = 2, R = 1, NC = 1, O = 1, UH = 1, UO = 1)
+freq <- c(I = 4, P = 2, R = 1, NC = 1, O = 1, UH = 1, UO = 1, NE = 1)
 
 # calculate rates, assuming 50% of unknown cases are elligble
-outcomerate(freq, e = 0.5)
+outcomerate(freq, e = eligibility_rate(freq))
 #>   RR1   RR2   RR3   RR4   RR5   RR6 COOP1 COOP2 COOP3 COOP4  REF1  REF2 
-#> 0.364 0.545 0.400 0.600 0.444 0.667 0.500 0.750 0.571 0.857 0.091 0.100 
+#> 0.364 0.545 0.370 0.556 0.444 0.667 0.500 0.750 0.571 0.857 0.091 0.093 
 #>  REF3  CON1  CON2  CON3  LOC1  LOC2 
-#> 0.111 0.727 0.800 0.889 0.818 0.900
+#> 0.111 0.727 0.741 0.889 0.818 0.833
 ```
 
 Dispositions do not always come in a tabulated format. Survey analysts

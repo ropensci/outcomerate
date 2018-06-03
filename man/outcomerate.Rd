@@ -4,20 +4,21 @@
 \alias{outcomerate}
 \title{AAPOR Survey Outcome Rates}
 \usage{
-outcomerate(x, e = NA, rate = NA, weight = NA, return_nd = FALSE)
+outcomerate(x, e = NULL, rate = NULL, weight = NULL, return_nd = FALSE)
 }
 \arguments{
 \item{x}{a character vector of disposition outcomes (I, P, R, NC, O, UH, or
 UO). Alternatively, a named vector/table of (weighted) disposition counts.}
 
-\item{e}{a scalar number that specifies the estimated proportion of unknown
-cases (U) which are eligible.}
+\item{e}{a scalar number that specifies the eligibility rate (the estimated
+proportion of unknown cases which are eligible). A default method
+of calculating 'e' is provided by \code{\link[=eligibility_rate]{eligibility_rate()}}.}
 
 \item{rate}{an optional character vector specifying the rates to be
 calculated. If set to NA (the default), all rates are returned.}
 
 \item{weight}{an optional numeric vector that specifies the weight of each
-element in 'x' if x is a character vector. If none is provided (the
+element in 'x' if x is a character vector or factor. If none is provided (the
 default), an unweighted estimate is returned.}
 
 \item{return_nd}{a logical to switch to having the function return the
@@ -25,46 +26,79 @@ numerator and denominator instead of the rate. Defaults to FALSE.}
 }
 \description{
 Provides standardized outcome rates for surveys, primarily as defined by the
-American Association for Public Opinion Research (AAPOR). Details can be
+\href{http://www.aapor.org/}{American Association for Public Opinion Research (AAPOR)}. Details can be
 found in the Standard Definitions manual \insertCite{aapor}{outcomerate}.
 }
 \details{
-The outcome rates are defined as follows:
+Survey and public opinion research often categorizes interview attempts of
+of a survey according to a set of outcome codes as follows:
+\itemize{
+\item I  = Complete interview
+\item P  = Partial interview
+\item R  = Refusal and break-off
+\item NC = Non-contact
+\item O  = Other
+\item UH = Unknown if household/occupied housing unit
+\item UO = Unknown, other
+\item NE = Known ineligible
+}
 
-AAPOR Response Rates:
+These high-level classes are used to calculate outcome rates that
+provide some measure of quality over the fieldwork. These outcome rates
+are defined here as follows:
 
-\itemize{ \item{RR1}{ = I / [(I + P) + (R + NC + O) + (UH + UO)]} \item{RR2}{
-= (I + P) / [(I + P) + (R + NC + O) + (UH + UO)]} \item{RR3}{ = I / [(I + P)
-+ (R + NC + O) + e(UH + UO)]} \item{RR4}{ = (I + P) / [(I + P) + (R + NC + O)
-+ e(UH + UO)]} \item{RR5}{ = I / [(I + P) + (R + NC + O)]} \item{RR6}{ = (I +
-P) / [(I + P) + (R + NC + O)]} }
+\strong{AAPOR Response Rate}
 
-AAPOR Cooperation Rates:
+The proportion of your intended sample that participate in the survey.
+\itemize{
+\item RR1 = I / ((I + P) + (R + NC + O) + (UH + UO))
+\item RR2 = (I + P) / ((I + P) + (R + NC + O) + (UH + UO))
+\item RR3 = I / ((I + P) + (R + NC + O) + e(UH + UO))
+\item RR4 = (I + P) / ((I + P) + (R + NC + O) + e(UH + UO))
+\item RR5 = I / ((I + P) + (R + NC + O))
+\item RR6 = (I + P) / ((I + P) + (R + NC + O))
+}
 
-\itemize{ \item{COOP1}{ = I / [(I + P) + R + O]} \item{COOP2}{ = (I + P) /
-[(I + P) + R + O]} \item{COOP3}{ = I / [(I + P) + R]} \item{COOP4}{ = (I + P)
-/ [(I + P) + R]} }
+\strong{AAPOR Cooperation Rates}
 
-AAPOR Refusal Rates:
+The proportion of contacted respondents who participate in the survey.
+\itemize{
+\item COOP1 = I / ((I + P) + R + O)
+\item COOP2 = (I + P) / ((I + P) + R + O)
+\item COOP3 = I / ((I + P) + R)
+\item COOP4 = (I + P) / ((I + P) + R)
+}
 
-\itemize{ \item{REF1}{ = R / [(I + P) + (R + NC + O) + (UH + UO)]}
-\item{REF2}{ = R / [(I + P) + (R + NC + O) + e(UH + UO)]} \item{REF3}{ = R /
-[(I + P) + (R + NC + O)]} }
+\strong{AAPOR Refusal Rates}
 
-AAPOR Contact Rates:
+The proportion of the sample that refuses to participate in the survey.
+\itemize{
+\item REF1 = R / ((I + P) + (R + NC + O) + (UH + UO))
+\item REF2 = R / ((I + P) + (R + NC + O) + e(UH + UO))
+\item REF3 = R / ((I + P) + (R + NC + O))
+}
 
-\itemize{ \item{CON1}{ = [(I + P) + (R + O)] / [(I + P) + (R + NC + O) + (UH
-+ UO)]} \item{CON2}{ = [(I + P) + (R + O)] / [(I + P) + (R + NC + O) + e(UH +
-UO)]} \item{CON3}{ = [(I + P) + (R + O)] / [(I + P) + (R + NC + O)]} }
+\strong{AAPOR Contact Rates}
 
-Location Rate:
+The proportion of the sample that is successfully contacted for
+an interview (whether they chose to participate or not).
+\itemize{
+\item CON1 = ((I + P) + (R + O)) / ((I + P) + (R + NC + O) + (UH+ UO))
+\item CON2 = ((I + P) + (R + O)) / ((I + P) + (R + NC + O) + e(UH + UO))
+\item CON3 = ((I + P) + (R + O)) / ((I + P) + (R + NC + O))
+}
 
-The location rate is not defined in AAPOR's standard, but can be found in
-\insertCite{vdk}{outcomerate}.
+\strong{Location Rate}
 
-\itemize{ \item{LOC1}{ = [(I + P) + (R + O + NC)] / [(I + P) + (R + NC + O) +
-(UH + UO)]} \item{LOC2}{ = [(I + P) + (R + O + NC)] / [(I + P) + (R + NC + O)
-+ e(UH + UO)]} }
+The proportion of cases that could be located for an interview.
+
+The location rate is not defined in AAPOR's Standards, but can be found in
+\insertCite{vdk}{outcomerate}. Note: depending on how the
+located cases are encoded, this may or may not be the correct formula.
+\itemize{
+\item LOC1 = ((I + P) + (R + O + NC)) / ((I + P) + (R + NC + O) + (UH + UO))
+\item LOC2 = ((I + P) + (R + O + NC)) / ((I + P) + (R + NC + O) + e(UH + UO))
+}
 }
 \examples{
 # load the outcomerate package
@@ -79,21 +113,24 @@ library(outcomerate)
 # O  = Other
 # UH = Unknown if household/occupied housing unit
 # UO = Unknown, other
-x <- c("I", "P", "I", "NC", "UH", "I", "R", "UO", "I", "O", "P", "I")
+# NE = Known ineligible
+x <- c("I", "P", "I", "NC", "UH", "I", "R", "NE",
+      "UO", "I", "O", "P", "I")
 
-# calculate all rates, assume 80\% of unknown cases are elligble
-outcomerate(x, e = 0.8)
+# calculate all rates
+elr <- eligibility_rate(x)
+outcomerate(x, e = elr)
 
 # return only one rate
 outcomerate(x, rate = "COOP1")
 
 # calculate weighted rates
-w <- runif(12, 0, 5)
-outcomerate(x, e = 0.8, weight = w)
+w <- runif(length(x), 0, 5)
+outcomerate(x, e = elr, weight = w)
 
 # alternatively, provide input as counts
 freq <- c(I = 6, P = 2, NC = 3, R = 1)
-outcomerate(freq, e = 0.8)
+outcomerate(freq, e = elr)
 }
 \references{
 \insertAllCited \insertRef{aapor}{outcomerate}

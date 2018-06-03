@@ -7,6 +7,7 @@ vignette: >
   %\VignetteIndexEntry{Intro to outcomerate}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteDepends{dplyr, ggplot2, tidyr, knitr, stringr}
 editor_options: 
   chunk_output_type: console
 ---
@@ -27,11 +28,12 @@ This vignette demonstrates the basic applications of the `outcomerate` package i
 ```{r, message=FALSE}
 # load packages
 library(outcomerate)
-library(tidyverse)
+library(dplyr)
+library(tidyr)
 library(knitr)
 ```
 
-To keep things light-hearted, I will use a toy dataset named `middleearth`. The data consists of 1691 rows, each representing an attempt to interview a member of middle earth. Not all elements in the sample resulted in a completed interview, however. Some cases could not be located, others were located but no one was available, some individuals were found but refused to participate, etc. These particular 'dispositions' can be summarised from the `code` variable in the data:
+To keep things lighthearted, I will use a toy dataset named `middleearth`. The data consists of 1691 rows, each representing an attempt to interview a member of middle earth. Not all elements in the sample resulted in a completed interview, however. Some cases could not be located, others were located but no one was available, some individuals were found but refused to participate, etc. These particular 'dispositions' can be summarized from the `code` variable in the data:
 
 ```{r, message=FALSE}
 # load dataset
@@ -46,41 +48,43 @@ attach(as.list(table(middleearth$code)))
 ```
 
 
-It is common for survey practionners to report a number of outcome rates. These rates give an indication as to the quality of the field work. For example, you may want to know the response rate: the proportion of all cases from our intended sample that actually resulted in an interview. 
+It is common for survey practitioners to report a number of outcome rates. These rates give an indication as to the quality of the field work. For example, you may want to know the response rate: the proportion of all cases from our intended sample that actually resulted in an interview. 
 
 How might we go about calculating this?
 
 When we inspect our disposition codes, it become apparent that there could be several ways to do this. For example, you may start by using the total number of complete cases (`r I`) and diving this by the number of observations in the data, `r I` / `r nrow(middleearth)` = `r round(I / nrow(middleearth), 2)`. But what about partially completed interviews? If you include those, you would get a rate of  (`r I` + `r P`) / `r nrow(middleearth)` =  `r round((I + P) / nrow(middleearth), 2)`.
 
-It turns out that there are a lot of ways to calculate such outcome rates. Unless we specify exactly what we mean by "response rate", it is easy for claims regarding survey quality to become opaque, lacking comparability with other surveys. For this reason, the American Association for Public Opinion Research (AAPOR) has published a [set of standardized definitions](https://www.aapor.org/Standards-Ethics/Standard-Definitions-(1).aspx) for practionners. The guide has no fewer than 6 different variants of the 'response rate.' In the our example, the rates we calculated would match to AAPOR's "Response Rate 1" and "Response Rate 2":
+It turns out that there are a lot of ways to calculate such outcome rates. Unless we specify exactly what we mean by "response rate", it is easy for claims regarding survey quality to become opaque, lacking comparability with other surveys. For this reason, the American Association for Public Opinion Research (AAPOR) has published a [set of standardized definitions](https://www.aapor.org/Standards-Ethics/Standard-Definitions-(1).aspx) for practitioners. The guide has no fewer than 6 different variants of the 'response rate.' In the our example, the rates we calculated would match to AAPOR's "Response Rate 1" and "Response Rate 2":
 
 
 $$
 \textrm{RR1} = \frac{\textrm{I}}{\textrm{(I + P) + R + O + NC + (UO + UH)}} 
 = \frac{`r I`}{(`r I` + `r P`) + `r R` + `r O` + `r NC` + (`r UO` + 0)} 
-= `r round(outcomerate(middleearth$code, e = 0.8, rate = "RR1"), 2)`
+= `r round(outcomerate(middleearth$code, rate = "RR1"), 2)`
 $$
 
 $$
 \textrm{RR2} = \frac{\textrm{(I + P)}}{\textrm{(I + P) + R + O + NC + (UO + UH)}} 
 = \frac{(`r I` + `r P`)}{(`r I` + `r P`) + `r R` + `r O` + `r NC` + (`r UO` + 0)} 
-= `r round(outcomerate(middleearth$code, e = 0.8, rate = "RR2"), 2)`
+= `r round(outcomerate(middleearth$code, rate = "RR2"), 2)`
 $$
 
 What's more, the guide has multiple definitions for contact rates, refusal rates, and cooperation rates, and weighted rates. It can easily become tedious to look all these up and calculate them by hand. The `outcomerate` package makes it easier by giving all rates (and more) in one go:
 
 
 ```{r}
-disposition_counts <- c(I = 797, P = 370, R = 53, NC = 289, UO = 182)
-outcomerate(disposition_counts, e = 0.8)
+disp_counts <- c(I = 760, P = 339, R = 59, NC = 288, O = 1, UO = 173, NE = 71) 
+
+e <- eligibility_rate(disp_counts)
+outcomerate(disp_counts, e = e)
 ```
 
-Each of these rates has a precise definition (see `?outcomerate` for details). As we can see, `RR1` and `RR2` match our earlier calculations. In the example, I needed to specify the parameter `e`, the estimated proporation of unknown cases `UO` that were elligible.
+Each of these rates has a precise definition (see `?outcomerate` for details). As we can see, `RR1` and `RR2` match our earlier calculations. In the example, I needed to specify the parameter `e`, the estimated proportion of unknown cases unknowns (`UO`) that were eligible. The `eligibility_rate()` offers a default way to calculate this, but others may be appropriate.
 
 If we had wanted just to return the two rates from above, we could specify this:
 
 ```{r}
-outcomerate(middleearth$code, rate = c("RR1", "RR2"))
+outcomerate(disp_counts, rate = c("RR1", "RR2"))
 ```
 
 
@@ -93,7 +97,7 @@ In certain situations, you may want to calculate outcome rates based on a vector
 head(middleearth)
 
 # calculate rates using codes; should be same result as before
-outcomerate(middleearth$code, e = 0.8)
+outcomerate(middleearth$code, e = e)
 ```
 
 Why might we prefer this input format, when it is just as easy to specify the counts?
@@ -103,9 +107,9 @@ Well, if we want to calculate outcome rates by some other covariate, we typicall
 
 ```{r}
 # create a small wrapper function
-or <- function(x, ...){
+get_rates <- function(x, ...){
   rlist <- c("RR1", "RR2", "COOP1", "COOP2", "CON1", "REF1", "LOC1")
-  as.data.frame(as.list(outcomerate(x, rate = rlist, e = 0.8, ...)))
+  as.data.frame(as.list(outcomerate(x, rate = rlist, e = e, ...)))
 }
 
 # calculate rates by group
@@ -113,7 +117,7 @@ middleearth %>%
   group_by(race) %>%
   summarise(n     = n(),
             Nhat  = sum(svywt),
-            rates = list(or(code))) %>%
+            rates = list(get_rates(code))) %>%
   unnest() %>%
   kable(digits = 2, caption = "Outcome Rates by Race")
 ```
@@ -129,7 +133,7 @@ middleearth %>%
   group_by(region) %>%
   summarise(n     = n(),
             Nhat  = sum(svywt),
-            rates = list(or(code, weight = svywt))) %>%
+            rates = list(get_rates(code, weight = svywt))) %>%
   unnest() %>%
   kable(digits = 2, caption = "Weighted Outcome Rates by Region")
 ```
@@ -142,7 +146,7 @@ middleearth %>%
   group_by(region) %>%
   summarise(n     = n(),
             Nhat  = sum(svywt),
-            rates = list(or(code))) %>%
+            rates = list(get_rates(code))) %>%
   unnest() %>%
   kable(digits = 2, caption = "Unweighted Outcome Rates by Region")
 ```
@@ -155,10 +159,13 @@ Lastly, another useful application of grouped analysis is to calculate the rates
 
 
 ```{r}
+library(ggplot2)
+library(stringr)
+
 # day-by-day quality monitoring
 middleearth %>%
   group_by(day) %>%
-  summarise(rates = list(or(code))) %>%
+  summarise(rates = list(get_rates(code))) %>%
   unnest() %>%
   gather(rate, value, -day) %>%
   mutate(type = str_sub(rate, start = -9, end = -2)) %>%
