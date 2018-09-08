@@ -4,7 +4,8 @@
 \alias{outcomerate}
 \title{AAPOR Survey Outcome Rates}
 \usage{
-outcomerate(x, e = NULL, rate = NULL, weight = NULL, return_nd = FALSE)
+outcomerate(x, e = NULL, rate = NULL, weight = NULL,
+  return_nd = FALSE)
 }
 \arguments{
 \item{x}{a character vector of disposition outcomes (I, P, R, NC, O, UH, or

@@ -1,4 +1,4 @@
-# outcomerate 0.0.1.9000
+# outcomerate 1.0.0
 
 #### New Features
 

@@ -4,7 +4,7 @@ editor_options:
   chunk_output_type: console
 ---
 
-[![Coverage status](https://codecov.io/gh/rtaph/outcomerate/branch/master/graph/badge.svg)](https://codecov.io/github/rtaph/outcomerate?branch=master) [![Travis build status](https://travis-ci.org/rtaph/outcomerate.svg?branch=master)](https://travis-ci.org/rtaph/outcomerate) [![Ropensci status](https://badges.ropensci.org/213_status.svg)](https://github.com/ropensci/onboarding/issues/213)
+[![Coverage status](https://codecov.io/gh/ropensci/outcomerate/branch/master/graph/badge.svg)](https://codecov.io/github/ropensci/outcomerate?branch=master) [![Travis build status](https://travis-ci.org/ropensci/outcomerate.svg?branch=master)](https://travis-ci.org/ropensci/outcomerate) [![Ropensci status](https://badges.ropensci.org/213_status.svg)](https://github.com/ropensci/onboarding/issues/213)
 
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
@@ -23,11 +23,12 @@ Although the mathematical formulas are straightforward, it can get tedious and r
 
 ## Installation
 
-The package is under development and available via github:
+
+The latest development version is available via github:
 
 ``` r
 install.packages("devtools")
-devtools::install_github("rtaph/outcomerate")
+devtools::install_github("ropensci/outcomerate")
 ```
 
 ## Example
@@ -51,7 +52,7 @@ data.frame(code = x) %>%
                                   `Other` = "O",
                                   `Unknown if household` = "UH",
                                   `Unknown, other` = "UO",
-                                  `Known Ineligible` = "NE")) %>%
+                                  `Known ineligible` = "NE")) %>%
   count(code, disposition) %>%
   kable()
 ```
@@ -73,7 +74,7 @@ library(outcomerate)
 # set counts per disposition code (needs to be a named vector)
 freq <- c(I = 4, P = 2, R = 1, NC = 1, O = 1, UH = 1, UO = 1, NE = 1)
 
-# calculate rates, assuming 50% of unknown cases are elligble
+# calculate rates, assuming 90% of unknown cases are elligble
 outcomerate(freq, e = eligibility_rate(freq))
 ```
 
@@ -90,3 +91,6 @@ outcomerate(x, rate = c("RR2", "CON1"))
 w <- c(rep(1.3, 6), rep(2.5, 5))
 outcomerate(x, weight = w, rate = c("RR2", "CON1"))
 ```
+
+[![ropensci_footer](https://ropensci.org/public_images/ropensci_footer.png)](https://ropensci.org)
+

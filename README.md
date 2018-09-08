@@ -1,8 +1,8 @@
 
 [![Coverage
-status](https://codecov.io/gh/rtaph/outcomerate/branch/master/graph/badge.svg)](https://codecov.io/github/rtaph/outcomerate?branch=master)
+status](https://codecov.io/gh/ropensci/outcomerate/branch/master/graph/badge.svg)](https://codecov.io/github/ropensci/outcomerate?branch=master)
 [![Travis build
-status](https://travis-ci.org/rtaph/outcomerate.svg?branch=master)](https://travis-ci.org/rtaph/outcomerate)
+status](https://travis-ci.org/ropensci/outcomerate.svg?branch=master)](https://travis-ci.org/ropensci/outcomerate)
 [![Ropensci
 status](https://badges.ropensci.org/213_status.svg)](https://github.com/ropensci/onboarding/issues/213)
 
@@ -22,11 +22,11 @@ all formulas as a collection of functions.
 
 ## Installation
 
-The package is under development and available via github:
+The latest development version is available via github:
 
 ``` r
 install.packages("devtools")
-devtools::install_github("rtaph/outcomerate")
+devtools::install_github("ropensci/outcomerate")
 ```
 
 ## Example
@@ -42,7 +42,7 @@ you tabulate all your attempts into a table of disposition outcomes:
 | NC   | Non-contact           | 1 |
 | O    | Other                 | 1 |
 | UH   | Unknown if household  | 1 |
-| NE   | Known Ineligible      | 1 |
+| NE   | Known ineligible      | 1 |
 | UO   | Unknown, other        | 1 |
 
 Using this table, you may wish to report some of the common survey
@@ -70,7 +70,7 @@ library(outcomerate)
 # set counts per disposition code (needs to be a named vector)
 freq <- c(I = 4, P = 2, R = 1, NC = 1, O = 1, UH = 1, UO = 1, NE = 1)
 
-# calculate rates, assuming 50% of unknown cases are elligble
+# calculate rates, assuming 90% of unknown cases are elligble
 outcomerate(freq, e = eligibility_rate(freq))
 #>   RR1   RR2   RR3   RR4   RR5   RR6 COOP1 COOP2 COOP3 COOP4  REF1  REF2 
 #> 0.364 0.545 0.370 0.556 0.444 0.667 0.500 0.750 0.571 0.857 0.091 0.093 
@@ -95,6 +95,8 @@ outcomerate(x, rate = c("RR2", "CON1"))
 # obtain a weighted rate
 w <- c(rep(1.3, 6), rep(2.5, 5))
 outcomerate(x, weight = w, rate = c("RR2", "CON1"))
-#>  RR2 CON1 
-#> 0.50 0.69
+#>  RR2w CON1w 
+#>  0.50  0.69
 ```
+
+[![ropensci\_footer](https://ropensci.org/public_images/ropensci_footer.png)](https://ropensci.org)

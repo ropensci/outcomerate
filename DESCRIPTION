@@ -1,18 +1,25 @@
 Package: outcomerate
-Version: 0.0.1.9000
+Version: 1.0.0
 Title: AAPOR Survey Outcome Rates
 Description: Standardized survey outcome rate functions, including the response rate, contact rate, cooperation rate, and refusal rate. These outcome rates allow survey researchers to measure the quality of survey data using definitions published by the American Association of Public Opinion Research (AAPOR).
-Authors@R: 
-    person(given  = "Rafael",
-           family = "Pilliard Hellwig",
-           email = "rafael.taph@gmail.com",
-           role = c("aut", "cre"),
-           comment = c(ORCID = "0000-0002-3092-3493"))
+Authors@R: c(
+    person(given   = "Rafael",
+           family  = "Pilliard Hellwig",
+           email   = "rafael.taph@gmail.com",
+           role    = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-3092-3493")),
+    person(given   = "Carl",
+           family  = "Ganz", 
+           role    = "rev"),
+    person(given   = "Neal",
+           family  = "Richardson", 
+           role    = "rev")
+    )
 License: CC0
 Encoding: UTF-8
 LazyData: true
 ByteCompile: true
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.0
 Roxygen: list(markdown = TRUE)
 Depends:
     R (>= 2.10)
@@ -33,6 +40,6 @@ Imports:
 RdMacros: 
     Rdpack
 Language: en-US
-URL: https://github.com/rtaph/outcomerate
-BugReports: https://github.com/rtaph/outcomerate/issues
+URL: https://github.com/ropensci/outcomerate
+BugReports: https://github.com/ropensci/outcomerate/issues
 VignetteBuilder: knitr
