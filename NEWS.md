@@ -1,3 +1,9 @@
+# outcomerate 1.0.1
+
+#### Documentation
+
+* Added CITATION details to the package
+
 # outcomerate 1.0.0
 
 #### New Features

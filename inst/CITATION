@@ -1,0 +1,18 @@
+citHeader("To cite the AAPOR standards or this package, please use:")
+
+citEntry(entry = "manual",
+    title = "Standard Definitions: Final Dispositions of Case Codes and Outcome Rates for Surveys",
+    organization = "The American Association for Public Opinion Research (AAPOR)",
+    note = "9th edition",
+    year = "2016",
+    url = "https://www.aapor.org/Standards-Ethics/Standard-Definitions-(1).aspx",
+    textVersion  = "The American Association for Public Opinion Research. 2016. Standard Definitions: Final Dispositions of Case Codes and Outcome Rates for Surveys. 9th edition. AAPOR.")
+
+citEntry(entry = "misc",
+    title = "outcomerate: AAPOR Survey Outcome Rates (R package)",
+    author = "Rafael Pilliard Hellwig",
+    note = "v1.0.1",
+    year = "2018",
+    url = "https://github.com/ropensci/outcomerate",
+    textVersion  = "Pilliard Hellwig, Rafael. (2018). outcomerate: AAPOR Survey Outcome Rates. R package version 1.0.1"
+  )
