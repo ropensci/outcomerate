@@ -3,6 +3,7 @@
 #### Documentation
 
 * Added CITATION details to the package
+* Added documentation as `pkgdown` site
 
 # outcomerate 1.0.0
 

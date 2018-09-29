@@ -1,3 +1,5 @@
+^docs$
+^_pkgdown\.yml$
 ^outcomerate\.Rproj$
 ^\.Rproj\.user$
 ^README\.Rmd$
