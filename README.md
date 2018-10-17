@@ -5,6 +5,8 @@ status](https://codecov.io/gh/ropensci/outcomerate/branch/master/graph/badge.svg
 status](https://travis-ci.org/ropensci/outcomerate.svg?branch=master)](https://travis-ci.org/ropensci/outcomerate)
 [![Ropensci
 status](https://badges.ropensci.org/213_status.svg)](https://github.com/ropensci/onboarding/issues/213)
+[![CRAN
+status](https://www.r-pkg.org/badges/version/outcomerate)](https://CRAN.R-project.org/package=outcomerate)
 
 # outcomerate
 
@@ -22,10 +24,16 @@ all formulas as a collection of functions.
 
 ## Installation
 
-The latest development version is available via github:
+Install the package from CRAN:
 
 ``` r
-install.packages("devtools")
+install.packages("outcomerate")
+```
+
+Alternatively, install the latest development version via github:
+
+``` r
+#install.packages("devtools")
 devtools::install_github("ropensci/outcomerate")
 ```
 

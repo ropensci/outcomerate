@@ -4,7 +4,7 @@ editor_options:
   chunk_output_type: console
 ---
 
-[![Coverage status](https://codecov.io/gh/ropensci/outcomerate/branch/master/graph/badge.svg)](https://codecov.io/github/ropensci/outcomerate?branch=master) [![Travis build status](https://travis-ci.org/ropensci/outcomerate.svg?branch=master)](https://travis-ci.org/ropensci/outcomerate) [![Ropensci status](https://badges.ropensci.org/213_status.svg)](https://github.com/ropensci/onboarding/issues/213)
+[![Coverage status](https://codecov.io/gh/ropensci/outcomerate/branch/master/graph/badge.svg)](https://codecov.io/github/ropensci/outcomerate?branch=master) [![Travis build status](https://travis-ci.org/ropensci/outcomerate.svg?branch=master)](https://travis-ci.org/ropensci/outcomerate) [![Ropensci status](https://badges.ropensci.org/213_status.svg)](https://github.com/ropensci/onboarding/issues/213) [![CRAN status](https://www.r-pkg.org/badges/version/outcomerate)](https://CRAN.R-project.org/package=outcomerate)
 
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
@@ -24,10 +24,16 @@ Although the mathematical formulas are straightforward, it can get tedious and r
 ## Installation
 
 
-The latest development version is available via github:
+Install the package from CRAN:
 
 ``` r
-install.packages("devtools")
+install.packages("outcomerate")
+```
+
+Alternatively, install the latest development version via github:
+
+``` r
+#install.packages("devtools")
 devtools::install_github("ropensci/outcomerate")
 ```
 
