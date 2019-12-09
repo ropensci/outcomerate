@@ -40,6 +40,6 @@ Imports:
 RdMacros: 
     Rdpack
 Language: en-US
-URL: https://github.com/ropensci/outcomerate
+URL: https://docs.ropensci.org/outcomerate, https://github.com/ropensci/outcomerate
 BugReports: https://github.com/ropensci/outcomerate/issues
 VignetteBuilder: knitr
