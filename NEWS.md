@@ -1,5 +1,7 @@
 # outcomerate (development version)
 
+* Minor updates to vignettes to reflect changes in the tidyverse.
+
 # outcomerate 1.0.1
 
 #### Documentation
@@ -18,7 +20,7 @@
 * Refactoring of code based on ROpenSci peer review feedback.
 * Added S3 method for factors.
 * Addition of many more unit tests.
-* Addtional of more helpful error messages.
+* Additional of more helpful error messages.
 
 #### Breaking Changes
 

@@ -1,8 +1,9 @@
 #' AAPOR Survey Outcome Rates
 #'
 #' Provides standardized outcome rates for surveys, primarily as defined by the
-#' [American Association for Public Opinion Research (AAPOR)](http://www.aapor.org/). Details can be
-#' found in the Standard Definitions manual \insertCite{aapor}{outcomerate}.
+#' [American Association for Public Opinion Research
+#' (AAPOR)](http://www.aapor.org/). Details can be found in the Standard
+#' Definitions manual \insertCite{aapor}{outcomerate}.
 #'
 #' Survey and public opinion research often categorizes interview attempts of
 #' of a survey according to a set of outcome codes as follows:
@@ -78,8 +79,8 @@
 #' @param rate an optional character vector specifying the rates to be
 #'   calculated. If set to NA (the default), all rates are returned.
 #' @param weight an optional numeric vector that specifies the weight of each
-#'   element in 'x' if x is a character vector or factor. If none is provided (the
-#'   default), an unweighted estimate is returned.
+#'   element in 'x' if x is a character vector or factor. If none is provided
+#'   (the default), an unweighted estimate is returned.
 #' @param return_nd a logical to switch to having the function return the
 #'   numerator and denominator instead of the rate. Defaults to FALSE.
 #' @importFrom Rdpack reprompt

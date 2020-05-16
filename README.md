@@ -45,20 +45,6 @@ devtools::install_github("ropensci/outcomerate")
 Let’s say you try to survey 12 people. After finishing the fieldwork,
 you tabulate all your attempts into a table of disposition outcomes:
 
-    #> Warning: `funs()` is deprecated as of dplyr 0.8.0.
-    #> Please use a list of either functions or lambdas: 
-    #> 
-    #>   # Simple named list: 
-    #>   list(mean = mean, median = median)
-    #> 
-    #>   # Auto named with `tibble::lst()`: 
-    #>   tibble::lst(mean, median)
-    #> 
-    #>   # Using lambdas
-    #>   list(~ mean(., trim = .2), ~ median(., na.rm = TRUE))
-    #> This warning is displayed once every 8 hours.
-    #> Call `lifecycle::last_warnings()` to see where this warning was generated.
-
 | code | disposition           | n |
 | :--- | :-------------------- | -: |
 | I    | Complete interview    | 4 |

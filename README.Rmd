@@ -4,8 +4,7 @@ editor_options:
   chunk_output_type: console
 ---
  <!-- badges: start -->
-[![R build status](https://github.com/ropensci/outcomerate/workflows/R-CMD-check/badge.svg)](https://github.com/ropensci/outcomerate/actions)
-[![Coverage status](https://codecov.io/gh/ropensci/outcomerate/branch/master/graph/badge.svg)](https://codecov.io/github/ropensci/outcomerate?branch=master) [![Travis build status](https://travis-ci.org/ropensci/outcomerate.svg?branch=master)](https://travis-ci.org/ropensci/outcomerate) [![Ropensci status](https://badges.ropensci.org/213_status.svg)](https://github.com/ropensci/onboarding/issues/213) [![CRAN status](https://www.r-pkg.org/badges/version/outcomerate)](https://CRAN.R-project.org/package=outcomerate)
+[![R build status](https://github.com/ropensci/outcomerate/workflows/R-CMD-check/badge.svg)](https://github.com/ropensci/outcomerate/actions) [![Coverage status](https://codecov.io/gh/ropensci/outcomerate/branch/master/graph/badge.svg)](https://codecov.io/github/ropensci/outcomerate?branch=master) [![Travis build status](https://travis-ci.org/ropensci/outcomerate.svg?branch=master)](https://travis-ci.org/ropensci/outcomerate) [![Ropensci status](https://badges.ropensci.org/213_status.svg)](https://github.com/ropensci/onboarding/issues/213) [![CRAN status](https://www.r-pkg.org/badges/version/outcomerate)](https://CRAN.R-project.org/package=outcomerate)
 <!-- badges: end -->
 
 ```{r setup, include = FALSE}
@@ -52,7 +51,7 @@ options(digits = 2)
 
 x <- c("I", "P", "R", "NC", "O", "UH",  "I", "NE", "I", "I", "P", "UO")
 data.frame(code = x) %>%
-  mutate_at(vars(code), funs(fct_inorder)) %>%
+  mutate(across(code, fct_inorder)) %>%
   mutate(disposition = fct_recode(x, `Complete interview` = "I", 
                                   `Partial interview` = "P",
                                   `Refusal and break-off` = "R",
@@ -82,7 +81,7 @@ library(outcomerate)
 # set counts per disposition code (needs to be a named vector)
 freq <- c(I = 4, P = 2, R = 1, NC = 1, O = 1, UH = 1, UO = 1, NE = 1)
 
-# calculate rates, assuming 90% of unknown cases are elligble
+# calculate rates, assuming 90% of unknown cases are eligible
 outcomerate(freq, e = eligibility_rate(freq))
 ```
 
