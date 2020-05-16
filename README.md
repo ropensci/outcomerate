@@ -1,4 +1,6 @@
 
+<!-- badges: start --> [![R build
+status](https://github.com/ropensci/outcomerate/workflows/R-CMD-check/badge.svg)](https://github.com/ropensci/outcomerate/actions)
 [![Coverage
 status](https://codecov.io/gh/ropensci/outcomerate/branch/master/graph/badge.svg)](https://codecov.io/github/ropensci/outcomerate?branch=master)
 [![Travis build
@@ -7,6 +9,7 @@ status](https://travis-ci.org/ropensci/outcomerate.svg?branch=master)](https://t
 status](https://badges.ropensci.org/213_status.svg)](https://github.com/ropensci/onboarding/issues/213)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/outcomerate)](https://CRAN.R-project.org/package=outcomerate)
+<!-- badges: end -->
 
 # outcomerate
 
@@ -41,6 +44,20 @@ devtools::install_github("ropensci/outcomerate")
 
 Let’s say you try to survey 12 people. After finishing the fieldwork,
 you tabulate all your attempts into a table of disposition outcomes:
+
+    #> Warning: `funs()` is deprecated as of dplyr 0.8.0.
+    #> Please use a list of either functions or lambdas: 
+    #> 
+    #>   # Simple named list: 
+    #>   list(mean = mean, median = median)
+    #> 
+    #>   # Auto named with `tibble::lst()`: 
+    #>   tibble::lst(mean, median)
+    #> 
+    #>   # Using lambdas
+    #>   list(~ mean(., trim = .2), ~ median(., na.rm = TRUE))
+    #> This warning is displayed once every 8 hours.
+    #> Call `lifecycle::last_warnings()` to see where this warning was generated.
 
 | code | disposition           | n |
 | :--- | :-------------------- | -: |
@@ -80,10 +97,10 @@ freq <- c(I = 4, P = 2, R = 1, NC = 1, O = 1, UH = 1, UO = 1, NE = 1)
 
 # calculate rates, assuming 90% of unknown cases are elligble
 outcomerate(freq, e = eligibility_rate(freq))
-#>   RR1   RR2   RR3   RR4   RR5   RR6 COOP1 COOP2 COOP3 COOP4  REF1  REF2 
-#> 0.364 0.545 0.370 0.556 0.444 0.667 0.500 0.750 0.571 0.857 0.091 0.093 
-#>  REF3  CON1  CON2  CON3  LOC1  LOC2 
-#> 0.111 0.727 0.741 0.889 0.818 0.833
+#>   RR1   RR2   RR3   RR4   RR5   RR6 COOP1 COOP2 COOP3 COOP4  REF1  REF2  REF3 
+#> 0.364 0.545 0.370 0.556 0.444 0.667 0.500 0.750 0.571 0.857 0.091 0.093 0.111 
+#>  CON1  CON2  CON3  LOC1  LOC2 
+#> 0.727 0.741 0.889 0.818 0.833
 ```
 
 Dispositions do not always come in a tabulated format. Survey analysts
