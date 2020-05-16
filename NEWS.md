@@ -1,3 +1,5 @@
+# outcomerate (development version)
+
 # outcomerate 1.0.1
 
 #### Documentation
