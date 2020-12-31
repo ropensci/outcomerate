@@ -1,6 +1,5 @@
 
-<!-- badges: start --> [![R build
-status](https://github.com/ropensci/outcomerate/workflows/R-CMD-check/badge.svg)](https://github.com/ropensci/outcomerate/actions)
+<!-- badges: start -->
 [![Coverage
 status](https://codecov.io/gh/ropensci/outcomerate/branch/master/graph/badge.svg)](https://codecov.io/github/ropensci/outcomerate?branch=master)
 [![Travis build
@@ -9,6 +8,7 @@ status](https://travis-ci.org/ropensci/outcomerate.svg?branch=master)](https://t
 status](https://badges.ropensci.org/213_status.svg)](https://github.com/ropensci/onboarding/issues/213)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/outcomerate)](https://CRAN.R-project.org/package=outcomerate)
+[![R build status](https://github.com/ropensci/outcomerate/workflows/R-CMD-check/badge.svg)](https://github.com/ropensci/outcomerate/actions)
 <!-- badges: end -->
 
 # outcomerate
