@@ -123,6 +123,8 @@
 #'   designs should also account for subsampling. If none is provided (the
 #'   default), an unweighted estimate is returned. Individual zero weights are
 #'   permitted, as required for phase-2-eligible cases that are not subsampled.
+#'   Weights cannot be supplied with an already-aggregated named vector or
+#'   table.
 #' @param return_nd a logical to switch to having the function return the
 #'   numerator and denominator instead of the rate. Defaults to FALSE.
 #' @importFrom Rdpack reprompt
@@ -184,8 +186,13 @@ outcomerate.character <- function(x, e = NULL, rate = NULL, weight = NULL,
   w <- weight %||% rep(1, length(x))
   freq   <- stats::xtabs(w ~ x)
 
-  # call table method
-  outcomerate(freq, e = e, rate = rate, return_nd = return_nd, weight = weight)
+  outcomerate_from_counts(
+    stats::setNames(as.numeric(freq), names(freq)),
+    e = e,
+    rate = rate,
+    return_nd = return_nd,
+    weighted = !is.null(weight)
+  )
 }
 
 #' @noRd
@@ -193,15 +200,32 @@ outcomerate.character <- function(x, e = NULL, rate = NULL, weight = NULL,
 outcomerate.table <- function(x, e = NULL, rate = NULL, weight = NULL,
                               return_nd = FALSE) {
 
+  assert_unweighted_counts(weight)
+
   # convert table to a labelled numeric vector
   freq <- stats::setNames(as.numeric(x), names(x))
-  outcomerate(freq, e = e, rate = rate, return_nd = return_nd, weight = weight)
+  outcomerate_from_counts(
+    freq,
+    e = e,
+    rate = rate,
+    return_nd = return_nd
+  )
 }
 
 #' @noRd
 #' @export
 outcomerate.numeric <- function(x, e = NULL, rate = NULL, weight = NULL,
                                 return_nd = FALSE) {
+
+  assert_unweighted_counts(weight)
+  outcomerate_from_counts(x, e = e, rate = rate, return_nd = return_nd)
+}
+
+#' Calculate outcome rates from validated aggregate counts
+#'
+#' @noRd
+outcomerate_from_counts <- function(x, e = NULL, rate = NULL,
+                                    return_nd = FALSE, weighted = FALSE) {
 
   # default to return as many rates as possible
   rate <- rate %||% default_rates(e)
@@ -231,7 +255,7 @@ outcomerate.numeric <- function(x, e = NULL, rate = NULL, weight = NULL,
   numden <- apply(m, 2:3, sum, na.rm = TRUE)
 
   # if weighted estimate, rename
-  if (!is.null(weight)) {
+  if (weighted) {
     dimnames(numden)$rate <- paste0(dimnames(numden)$rate, "w")
   }
 

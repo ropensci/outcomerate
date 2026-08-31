@@ -30,7 +30,9 @@ element in 'x' if x is a character vector or factor. For AAPOR weighted
 rates, use base weights (inverse selection probabilities); two-phase
 designs should also account for subsampling. If none is provided (the
 default), an unweighted estimate is returned. Individual zero weights are
-permitted, as required for phase-2-eligible cases that are not subsampled.}
+permitted, as required for phase-2-eligible cases that are not subsampled.
+Weights cannot be supplied with an already-aggregated named vector or
+table.}
 
 \item{return_nd}{a logical to switch to having the function return the
 numerator and denominator instead of the rate. Defaults to FALSE.}

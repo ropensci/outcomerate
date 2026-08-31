@@ -1,4 +1,4 @@
-# outcomerate 1.0.2
+# outcomerate 1.1.0
 
 * Updated the outcome-rate formulas, documentation, and bibliography to the
   AAPOR *Standard Definitions*, 10th edition (2023).
@@ -9,10 +9,13 @@
   results remain supported, while newly coded 3.20 cases should use `UR`.
 * Aligned weighted-rate guidance with the 10th edition: individual zero weights
   are accepted for two-phase designs, while invalid and all-zero weight vectors
-  are rejected.
+  are rejected. Already-aggregated inputs now reject `weight` instead of
+  silently returning results labelled as weighted.
 * `outcomerate()` now accepts category-specific eligibility estimates such as
   `e = c(UH = 0.4, UR = 0.7, UO = 0.2)`. Existing scalar `e` inputs retain
   their original behavior.
+* Aggregate disposition counts now reject duplicate names rather than silently
+  discarding later values during canonical ordering.
 * Minor updates to vignettes to reflect changes in the tidyverse.
 * Updated legacy citation, documentation, and test attribute syntax for current
   R and CRAN checks.

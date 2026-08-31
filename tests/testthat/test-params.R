@@ -1,5 +1,3 @@
-context("Parameter Combinations")
-
 x1 <- c(
   "I", "P", "I", "NC", "UH", "I", "R", "UO",
   "I", "O", "P", "I", "R", "O", "P", "NE"

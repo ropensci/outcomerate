@@ -11,8 +11,8 @@ bibentry(bibtype = "Manual",
 bibentry(bibtype = "Misc",
     title = "outcomerate: AAPOR Survey Outcome Rates (R package)",
     author = "Rafael Pilliard Hellwig",
-    note = "v1.0.2",
+    note = "v1.1.0",
     year = "2026",
     url = "https://github.com/ropensci/outcomerate",
-    textVersion  = "Pilliard Hellwig, Rafael. (2026). outcomerate: AAPOR Survey Outcome Rates. R package version 1.0.2"
+    textVersion  = "Pilliard Hellwig, Rafael. (2026). outcomerate: AAPOR Survey Outcome Rates. R package version 1.1.0"
   )

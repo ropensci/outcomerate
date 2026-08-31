@@ -80,8 +80,11 @@ assert_freq <- function(x) {
   if (is.null(names(x))) {
     stop("The input 'x' should be a named vector")
   }
-  if (any(names(x) == "")) {
+  if (anyNA(names(x)) || any(names(x) == "")) {
     stop("All elements in 'x' should be named")
+  }
+  if (anyDuplicated(names(x))) {
+    stop("Disposition names in 'x' must be unique")
   }
   if (any(is.na(x))) {
     stop("Disposition counts must not contain NA values")
@@ -98,6 +101,20 @@ assert_freq <- function(x) {
     stop("Certain names in 'x' are not valid: ", msg,
          "\nEnsure they are in the set {",
          paste0(codes, collapse = ", "), "}")
+  }
+
+  invisible(TRUE)
+}
+
+#' Reject weights for already-aggregated inputs
+#'
+#' @noRd
+assert_unweighted_counts <- function(weight) {
+  if (!is.null(weight)) {
+    stop(
+      "'weight' can only be supplied when 'x' contains individual ",
+      "dispositions, not aggregate counts"
+    )
   }
 
   invisible(TRUE)

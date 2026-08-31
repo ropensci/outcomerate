@@ -31,7 +31,8 @@
 #' @param weight an optional numeric vector that specifies the weight of each
 #'   element in 'x' if x is a character vector. For probability samples, these
 #'   will normally be base weights (inverse selection probabilities). If none
-#'   is provided (the default), an unweighted estimate is returned.
+#'   is provided (the default), an unweighted estimate is returned. Weights
+#'   cannot be supplied with an already-aggregated named vector or table.
 #' @importFrom Rdpack reprompt
 #' @export
 #' @seealso [outcomerate]
@@ -82,22 +83,35 @@ eligibility_rate.character <- function(x, weight = NULL) {
   weight <- weight %||% rep(1, length(x))
   freq   <- stats::xtabs(weight ~ x)
 
-  eligibility_rate(freq)
+  eligibility_rate_from_counts(
+    stats::setNames(as.numeric(freq), names(freq))
+  )
 }
 
 
 #' @noRd
 #' @export
-eligibility_rate.table <- function(x, ...) {
+eligibility_rate.table <- function(x, weight = NULL) {
+
+  assert_unweighted_counts(weight)
 
   # convert table to a labelled numeric vector
   freq <- stats::setNames(as.numeric(x), names(x))
-  eligibility_rate(freq)
+  eligibility_rate_from_counts(freq)
 }
 
 #' @noRd
 #' @export
-eligibility_rate.numeric <- function(x, ...) {
+eligibility_rate.numeric <- function(x, weight = NULL) {
+
+  assert_unweighted_counts(weight)
+  eligibility_rate_from_counts(x)
+}
+
+#' Calculate an eligibility rate from aggregate counts
+#'
+#' @noRd
+eligibility_rate_from_counts <- function(x) {
 
   # assert expectations
   assert_freq(x)

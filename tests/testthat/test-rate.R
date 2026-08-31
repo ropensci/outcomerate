@@ -1,6 +1,3 @@
-context("Outcome Rates")
-
-
 # vector with all possible classifications
 x1 <- c(
   "I", "P", "I", "NC", "UH", "I", "R", "UO",

@@ -77,6 +77,17 @@ test_that("e is unnecessary when all unknown contributions are zero", {
   )
 })
 
+test_that("zero-weight unknown observations do not require e", {
+  expect_identical(
+    outcomerate(
+      c("I", "UR"),
+      weight = c(2, 0),
+      rate = "RR3"
+    ),
+    c(RR3w = 1)
+  )
+})
+
 test_that("category-specific e works across input and weighting methods", {
   dispositions <- c("I", "UH", "UR", "UO")
   e_by_class <- c(UH = 0.2, UR = 0.5, UO = 0.8)
@@ -159,6 +170,36 @@ test_that("category-specific e is validated", {
     outcomerate(counts, e = numeric(), rate = "RR3"),
     "at least one"
   )
+})
+
+test_that("UR independently requires an eligibility estimate", {
+  counts <- c(I = 2, UR = 1)
+
+  expect_error(
+    outcomerate(counts, rate = "RR3"),
+    "require the parameter 'e'"
+  )
+  expect_error(
+    outcomerate(
+      counts,
+      e = c(UH = 0.2, UO = 0.3),
+      rate = "RR3"
+    ),
+    "missing estimates.*UR"
+  )
+})
+
+test_that("weighted category-specific e returns weighted numerator and denominator", {
+  nd <- outcomerate(
+    c("I", "UH", "UR"),
+    e = c(UH = 0.25, UR = 0.5),
+    weight = c(2, 4, 6),
+    rate = "RR3",
+    return_nd = TRUE
+  )
+
+  expect_identical(rownames(nd), "RR3w")
+  expect_identical(unname(nd["RR3w", ]), c(2, 6))
 })
 
 test_that("aggregate counts used with e are valid", {

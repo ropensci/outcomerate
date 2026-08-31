@@ -14,7 +14,8 @@ counts.}
 \item{weight}{an optional numeric vector that specifies the weight of each
 element in 'x' if x is a character vector. For probability samples, these
 will normally be base weights (inverse selection probabilities). If none
-is provided (the default), an unweighted estimate is returned.}
+is provided (the default), an unweighted estimate is returned. Weights
+cannot be supplied with an already-aggregated named vector or table.}
 }
 \description{
 Provides an estimate for the proportion of cases of unknown eligibility
