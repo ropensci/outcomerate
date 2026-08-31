@@ -11,9 +11,12 @@
 #' 2023)](https://aapor.org/wp-content/uploads/2023/06/Response-Rate-Calculator-5-1_04142023.xlsx),
 #' on the basis of known ineligibles being coded as "NE". It is one accepted
 #' estimator of `e`; researchers should use better design-specific information
-#' when available. The current `outcomerate()` API applies one scalar `e`
-#' uniformly to `UH`, `UR`, and `UO`; it does not yet accept separate estimates
-#' for classes of unknown cases.
+#' when available. This function returns one scalar estimate. Separate
+#' estimates can be supplied directly to [outcomerate()] as a named vector such
+#' as `c(UH = 0.4, UR = 0.7, UO = 0.2)`; they cannot be inferred from the
+#' package's aggregate `NE` count alone. See
+#' \insertCite{aapor_e_2025}{outcomerate} for category-specific estimation
+#' guidance.
 #'
 #'
 #' The eligibility rate (ELR) is defined as

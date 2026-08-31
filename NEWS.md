@@ -10,6 +10,9 @@
 * Aligned weighted-rate guidance with the 10th edition: individual zero weights
   are accepted for two-phase designs, while invalid and all-zero weight vectors
   are rejected.
+* `outcomerate()` now accepts category-specific eligibility estimates such as
+  `e = c(UH = 0.4, UR = 0.7, UO = 0.2)`. Existing scalar `e` inputs retain
+  their original behavior.
 * Minor updates to vignettes to reflect changes in the tidyverse.
 * Updated legacy citation, documentation, and test attribute syntax for current
   R and CRAN checks.

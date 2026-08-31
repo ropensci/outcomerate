@@ -1,19 +1,58 @@
 #' Assert validity of parameter 'e'
 #'
 #' @noRd
-assert_e <- function(e, rate) {
+assert_e <- function(e, rate, x) {
 
   # determine if given rates depend on e
   needs_e <- any(req_e() %in% rate)
   if (needs_e) {
-    if (length(e) != 1) {
-      stop("The parameter e must be a scalar value")
+    unknowns <- unknown_dispositions()
+    present <- unknowns[x[unknowns] > 0]
+
+    # No estimate is needed when every unknown category contributes zero.
+    if (is.null(e) && length(present) == 0) {
+      return(invisible(TRUE))
+    }
+    if (is.null(e)) {
+      needed_rates <- intersect(rate, req_e())
+      stop("Rates {", paste0(needed_rates, collapse = ", "),
+           "} require the parameter 'e' to be defined. If you have NE ",
+           "values in 'x', try running eligibility_rate(x) to estimate it.")
     }
     if (!is.numeric(e)) {
       stop("The parameter e must be numeric")
     }
-    if (e < 0 | e > 1) {
+    if (length(e) < 1) {
+      stop("The parameter e must contain at least one value")
+    }
+    if (any(is.na(e)) || any(!is.finite(e))) {
+      stop("The parameter e must contain only finite, non-missing values")
+    }
+    if (any(e < 0 | e > 1)) {
       stop("The parameter e must be on the interval [0, 1]")
+    }
+
+    # A length-one value remains the global eligibility estimate for backward
+    # compatibility, including the named ELR returned by eligibility_rate().
+    if (length(e) > 1) {
+      if (is.null(names(e)) || any(is.na(names(e))) || any(names(e) == "")) {
+        stop("A non-scalar e must be named using UH, UR, and UO")
+      }
+      if (any(duplicated(names(e)))) {
+        stop("Names in a non-scalar e must be unique")
+      }
+
+      invalid <- setdiff(names(e), unknowns)
+      if (length(invalid) > 0) {
+        stop("Names in a non-scalar e must be drawn from {UH, UR, UO}: ",
+             paste0(invalid, collapse = ", "))
+      }
+
+      missing <- setdiff(present, names(e))
+      if (length(missing) > 0) {
+        stop("The parameter e is missing estimates for dispositions present ",
+             "in x: ", paste0(missing, collapse = ", "))
+      }
     }
   }
   invisible(TRUE)
@@ -43,6 +82,15 @@ assert_freq <- function(x) {
   }
   if (any(names(x) == "")) {
     stop("All elements in 'x' should be named")
+  }
+  if (any(is.na(x))) {
+    stop("Disposition counts must not contain NA values")
+  }
+  if (any(!is.finite(x))) {
+    stop("Disposition counts must be finite")
+  }
+  if (any(x < 0)) {
+    stop("Disposition counts must be non-negative")
   }
   if (!all(names(x) %in% codes)) {
     unk <- setdiff(names(x), codes)
@@ -88,7 +136,7 @@ assert_weight <- function(weight, x) {
 #' Assert validity of rates
 #'
 #' @noRd
-assert_rate <- function(rate, e) {
+assert_rate <- function(rate) {
 
   if (!is.null(rate)) {
     # throw error if any inputs are not in the set of
@@ -99,18 +147,6 @@ assert_rate <- function(rate, e) {
            paste0(unrecognized, collapse = ", "))
     }
 
-    # list input rates requiring e
-    emat <- fmat[c("eUH", "eUR", "eUO"), rate, , drop = FALSE]
-    req_e <- apply(emat, 2, sum) > 0
-
-    # throw error if any of the requested rates require e,
-    # and e is not provided
-    if (any(req_e) && is.null(e)) {
-      msg <- paste0(names(which(req_e)), collapse = ", ")
-      stop("Rates {", msg, "} require the parameter 'e' to be ",
-           "defined. If you have NE values in 'x', try running ",
-           "eligibility_rate(x) to estimate it.")
-    }
   }
 
   invisible(TRUE)

@@ -77,8 +77,9 @@ location rates, these are taken from the AAPOR Standard Definitions (2023).</p>
 number (i.e. a fraction) consisting of a summation of frequencies of
 outcome codes (where the matrix entries are nonzero).</p>
 <p>The input parameters given by the user are <code>I</code>, <code>P</code>, <code>R</code>, <code>NC</code>, <code>O</code>, <code>UH</code>,
-<code>UR</code>, <code>UO</code>, and <code>NE</code>. The parameter <code>e</code> is multiplied by <code>UH</code>, <code>UR</code>, and
-<code>UO</code> internally to produce <code>eUH</code>, <code>eUR</code>, and <code>eUO</code>.</p>
+<code>UR</code>, <code>UO</code>, and <code>NE</code>. The scalar or category-specific values in <code>e</code> are
+multiplied by <code>UH</code>, <code>UR</code>, and <code>UO</code> internally to produce the estimated
+eligible counts <code>eUH</code>, <code>eUR</code>, and <code>eUO</code>.</p>
 <p>The reason for this implementation is:</p>
 <p>a) It conforms to a DRY (don't repeat yourself) philosophy by
 holding all definitions in one place. These definitions can be used as

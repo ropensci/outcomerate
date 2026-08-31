@@ -75,7 +75,7 @@ What's more, the guide has multiple definitions for contact rates, refusal rates
 
 ```{r}
 disp_counts <- c(I = 760, P = 339, R = 59, NC = 288, O = 1,
-                 UH = 0, UR = 0, UO = 173, NE = 71)
+                 UH = 40, UR = 60, UO = 73, NE = 71)
 
 e <- eligibility_rate(disp_counts)
 outcomerate(disp_counts, e = e)
@@ -84,7 +84,27 @@ outcomerate(disp_counts, e = e)
 The output also includes `LOC1` and `LOC2`, which are package extensions rather
 than AAPOR-defined rates.
 
-Each of these rates has a precise definition (see `?outcomerate` for details). As we can see, `RR1` and `RR2` match our earlier calculations. In the example, I needed to specify the parameter `e`, the estimated proportion of cases of unknown eligibility (`UH`, `UR`, and `UO`) that were eligible. The `eligibility_rate()` offers a default way to calculate this, but others may be appropriate.
+Each of these rates has a precise definition (see `?outcomerate` for details). As we can see, `RR1` and `RR2` match our earlier calculations. In the example, I needed to specify the parameter `e`, the estimated proportion of cases of unknown eligibility (`UH`, `UR`, and `UO`) that were eligible. The `eligibility_rate()` offers a default scalar estimate, but others may be appropriate.
+
+When evidence supports different eligibility probabilities for the unknown
+categories, supply a named vector. For example:
+
+```{r category-specific-e}
+e_by_class <- c(UH = 0.35, UR = 0.70, UO = 0.50)
+outcomerate(
+  disp_counts,
+  e = e_by_class,
+  rate = c("RR3", "RR4", "REF2", "CON2")
+)
+```
+
+Each value is the conditional probability that a case in that category is
+eligible. For `UH`, this must be the full probability of survey eligibility,
+not merely the probability that the unit is an occupied household. A category
+may be omitted only when its aggregate count is zero (after weighting, when
+weights are supplied). Calculate `e` separately for each sampling frame. The
+basis for every estimate should be documented and should not be selected to
+inflate a response rate.
 
 If we had wanted just to return the two rates from above, we could specify this:
 

@@ -15,8 +15,9 @@
 #' outcome codes (where the matrix entries are nonzero).
 #'
 #' The input parameters given by the user are `I`, `P`, `R`, `NC`, `O`, `UH`,
-#' `UR`, `UO`, and `NE`. The parameter `e` is multiplied by `UH`, `UR`, and
-#' `UO` internally to produce `eUH`, `eUR`, and `eUO`.
+#' `UR`, `UO`, and `NE`. The scalar or category-specific values in `e` are
+#' multiplied by `UH`, `UR`, and `UO` internally to produce the estimated
+#' eligible counts `eUH`, `eUR`, and `eUO`.
 #'
 #' The reason for this implementation is:
 #'

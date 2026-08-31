@@ -62,6 +62,8 @@
 <ul><li>Updated the outcome-rate formulas, documentation, and bibliography to the AAPOR <em>Standard Definitions</em>, 10th edition (2023).</li>
 <li>Added support for <code>UR</code>, the 10th edition’s new aggregate symbol for cases where it is unknown whether the sampled unit is eligible or the housing unit contains an eligible respondent (code 3.20). The underlying 3.20 disposition is not new: the 9th edition included it in <code>UO</code>. Existing <code>UO</code> inputs and results remain supported, while newly coded 3.20 cases should use <code>UR</code>.</li>
 <li>Aligned weighted-rate guidance with the 10th edition: individual zero weights are accepted for two-phase designs, while invalid and all-zero weight vectors are rejected.</li>
+<li>
+<code><a href="../reference/outcomerate.html">outcomerate()</a></code> now accepts category-specific eligibility estimates such as <code>e = c(UH = 0.4, UR = 0.7, UO = 0.2)</code>. Existing scalar <code>e</code> inputs retain their original behavior.</li>
 <li>Minor updates to vignettes to reflect changes in the tidyverse.</li>
 <li>Updated legacy citation, documentation, and test attribute syntax for current R and CRAN checks.</li>
 </ul></div>

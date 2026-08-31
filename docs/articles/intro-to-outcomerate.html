@@ -196,7 +196,7 @@ become tedious to look all these up and calculate them by hand. The
 (and more) in one go:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">disp_counts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>I <span class="op">=</span> <span class="fl">760</span>, P <span class="op">=</span> <span class="fl">339</span>, R <span class="op">=</span> <span class="fl">59</span>, NC <span class="op">=</span> <span class="fl">288</span>, O <span class="op">=</span> <span class="fl">1</span>,</span>
-<span>                 UH <span class="op">=</span> <span class="fl">0</span>, UR <span class="op">=</span> <span class="fl">0</span>, UO <span class="op">=</span> <span class="fl">173</span>, NE <span class="op">=</span> <span class="fl">71</span><span class="op">)</span></span>
+<span>                 UH <span class="op">=</span> <span class="fl">40</span>, UR <span class="op">=</span> <span class="fl">60</span>, UO <span class="op">=</span> <span class="fl">73</span>, NE <span class="op">=</span> <span class="fl">71</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">e</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/eligibility_rate.html">eligibility_rate</a></span><span class="op">(</span><span class="va">disp_counts</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/outcomerate.html">outcomerate</a></span><span class="op">(</span><span class="va">disp_counts</span>, e <span class="op">=</span> <span class="va">e</span><span class="op">)</span></span>
@@ -214,11 +214,29 @@ and <code>RR2</code> match our earlier calculations. In the example, I
 needed to specify the parameter <code>e</code>, the estimated proportion
 of cases of unknown eligibility (<code>UH</code>, <code>UR</code>, and
 <code>UO</code>) that were eligible. The <code><a href="../reference/eligibility_rate.html">eligibility_rate()</a></code>
-offers a default way to calculate this, but others may be
-appropriate.</p>
+offers a default scalar estimate, but others may be appropriate.</p>
+<p>When evidence supports different eligibility probabilities for the
+unknown categories, supply a named vector. For example:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">e_by_class</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>UH <span class="op">=</span> <span class="fl">0.35</span>, UR <span class="op">=</span> <span class="fl">0.70</span>, UO <span class="op">=</span> <span class="fl">0.50</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/outcomerate.html">outcomerate</a></span><span class="op">(</span></span>
+<span>  <span class="va">disp_counts</span>,</span>
+<span>  e <span class="op">=</span> <span class="va">e_by_class</span>,</span>
+<span>  rate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"RR3"</span>, <span class="st">"RR4"</span>, <span class="st">"REF2"</span>, <span class="st">"CON2"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt;        RR3        RR4       REF2       CON2 </span></span>
+<span><span class="co">#&gt; 0.49366677 0.71386814 0.03832413 0.75284183</span></span></code></pre></div>
+<p>Each value is the conditional probability that a case in that
+category is eligible. For <code>UH</code>, this must be the full
+probability of survey eligibility, not merely the probability that the
+unit is an occupied household. A category may be omitted only when its
+aggregate count is zero (after weighting, when weights are supplied).
+Calculate <code>e</code> separately for each sampling frame. The basis
+for every estimate should be documented and should not be selected to
+inflate a response rate.</p>
 <p>If we had wanted just to return the two rates from above, we could
 specify this:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/outcomerate.html">outcomerate</a></span><span class="op">(</span><span class="va">disp_counts</span>, rate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"RR1"</span>, <span class="st">"RR2"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;       RR1       RR2 </span></span>
 <span><span class="co">#&gt; 0.4691358 0.6783951</span></span></code></pre></div>
@@ -229,7 +247,7 @@ specify this:</p>
 on a vector of codes, rather than a table of frequency counts. It is
 just as easy to obtain rates this way using
 <code>outcomerate</code>:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># print the head of the dataset</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">middleearth</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 9</span></span></span>
@@ -256,7 +274,7 @@ specify the counts?</p>
 we typically need to go back to the original data. For example, here we
 use <code>dplyr</code> and <code>tidyr</code> to calculate outcome rates
 of interest by race:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># create a small wrapper function</span></span>
 <span><span class="va">get_rates</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span><span class="op">{</span></span>
 <span>  <span class="va">rlist</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"RR1"</span>, <span class="st">"RR2"</span>, <span class="st">"COOP1"</span>, <span class="st">"COOP2"</span>, <span class="st">"CON1"</span>, <span class="st">"REF1"</span>, <span class="st">"LOC1"</span><span class="op">)</span></span>
@@ -354,7 +372,7 @@ of interest by race:</p>
 <p>In certain situations, we also wish to produce <em>weighted</em>
 outcome rates, using the survey weights that are provided in the data.
 This is easy to do with one additional parameter:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># calculate weighted rates by group</span></span>
 <span><span class="va">middleearth</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">region</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -538,7 +556,7 @@ the results are not the same.</p>
 <p>Lastly, another useful application of grouped analysis is to
 calculate the rates by date. This allows you to monitor the quality day
 by day and notice if performance starts to change over time.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://stringr.tidyverse.org" class="external-link">stringr</a></span><span class="op">)</span></span>
 <span></span>
@@ -573,7 +591,7 @@ look into and attempt to explain and/or redress.</p>
 approximation. Since outcome rates are nothing more than proportions (or
 nearly so), their standard error is given by
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mi>E</mi><mo stretchy="false" form="prefix">(</mo><mi>p</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><msqrt><mrow><mo stretchy="false" form="prefix">(</mo><mi>p</mi><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>p</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">)</mo><mi>/</mi><mi>n</mi></mrow></msqrt></mrow><annotation encoding="application/x-tex">SE(p) = \sqrt{(p(1-p))/n}</annotation></semantics></math>.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># first, calculate the outcome rates</span></span>
 <span><span class="op">(</span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/outcomerate.html">outcomerate</a></span><span class="op">(</span><span class="va">middleearth</span><span class="op">$</span><span class="va">code</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;        RR1        RR2        RR5        RR6      COOP1      COOP2      COOP3 </span></span>
@@ -585,7 +603,7 @@ nearly so), their standard error is given by
 <span><span class="va">se</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">res</span>, <span class="kw">function</span><span class="op">(</span><span class="va">p</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="op">(</span><span class="va">p</span> <span class="op">*</span> <span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">p</span><span class="op">)</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">middleearth</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>With the standard error in hand, we can then construct frequentist
 confidence intervals:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># calculate 95% confidence intervals</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">res</span> <span class="op">-</span> <span class="op">(</span><span class="va">se</span> <span class="op">*</span> <span class="fl">1.96</span><span class="op">)</span>, <span class="va">res</span> <span class="op">+</span> <span class="op">(</span><span class="va">se</span> <span class="op">*</span> <span class="fl">1.96</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;            RR1       RR2       RR5       RR6     COOP1     COOP2     COOP3</span></span>

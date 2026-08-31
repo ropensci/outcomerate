@@ -28,8 +28,8 @@ test_that("outcomerate should only work if 'e' is on the interval [0, 1]", {
   expect_error(outcomerate(x1, e = 1), NA)
 })
 
-test_that("outcomerate should not work if 'e' is not a scalar", {
-  msg <- "The parameter e must be a scalar value"
+test_that("a non-scalar 'e' must identify disposition categories", {
+  msg <- "A non-scalar e must be named"
   expect_error(outcomerate(x1, e = c(0.3, 0.5)), regexp = msg)
 })
 

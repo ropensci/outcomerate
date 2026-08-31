@@ -83,9 +83,15 @@ counts.</p></dd>
 
 
 <dt id="arg-e">e<a class="anchor" aria-label="anchor" href="#arg-e"></a></dt>
-<dd><p>a scalar number that specifies the eligibility rate (the estimated
-proportion of unknown cases which are eligible). A default method
-of calculating 'e' is provided by <code><a href="eligibility_rate.html">eligibility_rate()</a></code>.</p></dd>
+<dd><p>a numeric eligibility estimate in <code>[0, 1]</code>. A length-one value is
+applied to all unknown dispositions. Alternatively, use a named vector
+such as <code>c(UH = 0.4, UR = 0.7, UO = 0.2)</code> for category-specific estimates.
+A non-scalar vector must contain one uniquely named value for every
+unknown category with a positive aggregate count (weighted when <code>weight</code>
+is supplied); categories with a zero count may be omitted.
+<code><a href="eligibility_rate.html">eligibility_rate()</a></code> provides a default scalar estimate. If an
+<code>e</code>-dependent rate is explicitly requested when every unknown category has
+count zero, <code>e</code> may be omitted.</p></dd>
 
 
 <dt id="arg-rate">rate<a class="anchor" aria-label="anchor" href="#arg-rate"></a></dt>
@@ -122,12 +128,24 @@ respondent (3.20)</p></li>
 <li><p>UO = Unknown, other (3.90)</p></li>
 <li><p>NE = Not eligible (4.0)</p></li>
 </ul><p><code>UR</code> is the 10th-edition aggregate symbol for 3.20, which the 9th edition
-included under <code>UO</code>. Legacy <code>UO</code> inputs remain supported. With the scalar
-<code>e</code> used by this package, moving a 3.20 case from <code>UO</code> to <code>UR</code> does not alter
-a rate, but new 3.20 cases should be coded <code>UR</code> for standards conformance.</p>
+included under <code>UO</code>. Legacy <code>UO</code> inputs remain supported. With a scalar <code>e</code>,
+moving a 3.20 case from <code>UO</code> to <code>UR</code> does not alter a rate. With
+category-specific estimates it can, so new 3.20 cases should be coded <code>UR</code>
+for standards conformance.</p>
 <p>These high-level classes are used to calculate outcome rates that
 provide some measure of quality over the fieldwork. These outcome rates
 are defined here as follows:</p>
+<p>The formulas below show the traditional scalar form <code>e(UH + UR + UO)</code>. If
+<code>e</code> is supplied by category, that term is evaluated as
+<code>e["UH"] * UH + e["UR"] * UR + e["UO"] * UO</code>. Each value is the
+conditional probability that a case in that unknown category is ultimately
+eligible for the survey, following the companion guidance in
+(Amaya et al. 2025)
+. Calculate <code>e</code> separately for each
+frame. One vector applies to the cases in one call; combining frames requires
+a scientifically justified aggregation. Other design components, modes, or
+phases may also require separate estimates when their mechanisms differ.
+Document the scientific basis for every estimate.</p>
 <p><strong>AAPOR Response Rate</strong></p>
 <p>The proportion of sampled cases that yield a complete or partial interview,
 depending on the selected definition.</p><ul><li><p>RR1 = I / ((I + P) + (R + NC + O) + (UH + UR + UO))</p></li>
@@ -169,7 +187,10 @@ e(UH + UR + UO))</p></li>
 </ul></div>
     <div id="references">
     <h2>References</h2>
-    <p>The American Association for Public Opinion Research (2023).
+    <p>Amaya A, Marlar J, English N (2025).
+“Estimating the Eligibility Status of Cases with Unknown Eligibility.”
+American Association for Public Opinion Research.
+<a href="https://aapor.org/wp-content/uploads/2025/10/Estimating-the-Eligibility-Status-of-Cases-with-Unknown-Eligibility_FINAL.pdf" class="external-link">https://aapor.org/wp-content/uploads/2025/10/Estimating-the-Eligibility-Status-of-Cases-with-Unknown-Eligibility_FINAL.pdf</a>.<br><br> The American Association for Public Opinion Research (2023).
 “Standard Definitions: Final Dispositions of Case Codes and Outcome Rates for Surveys.”
 <a href="https://aapor.org/wp-content/uploads/2024/03/Standards-Definitions-10th-edition.pdf" class="external-link">https://aapor.org/wp-content/uploads/2024/03/Standards-Definitions-10th-edition.pdf</a>.<br><br> Valliant R, Dever JA, Kreuter F (2013).
 <em>Practical Tools for Designing and Weighting Survey Samples</em>,  Statistics for Social and Behavioral Sciences.
@@ -205,6 +226,12 @@ Springer New York.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 0.77777778 0.62500000 0.87500000 0.07692308 0.07857143 0.10000000 0.69230769 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       CON2       CON3       LOC1       LOC2 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 0.70714286 0.90000000 0.76923077 0.78571429 </span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># use separate eligibility estimates for each unknown category</span></span></span>
+<span class="r-in"><span><span class="va">e_by_class</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>UH <span class="op">=</span> <span class="fl">0.4</span>, UR <span class="op">=</span> <span class="fl">0.7</span>, UO <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">outcomerate</span><span class="op">(</span><span class="va">x</span>, e <span class="op">=</span> <span class="va">e_by_class</span>, rate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"RR3"</span>, <span class="st">"REF2"</span>, <span class="st">"CON2"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        RR3       REF2       CON2 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.44247788 0.08849558 0.79646018 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># return only one rate</span></span></span>
 <span class="r-in"><span><span class="fu">outcomerate</span><span class="op">(</span><span class="va">x</span>, rate <span class="op">=</span> <span class="st">"COOP1"</span><span class="op">)</span></span></span>

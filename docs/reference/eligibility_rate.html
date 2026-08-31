@@ -99,9 +99,13 @@ is provided (the default), an unweighted estimate is returned.</p></dd>
 in the Excel-based <a href="https://aapor.org/wp-content/uploads/2023/06/Response-Rate-Calculator-5-1_04142023.xlsx" class="external-link">AAPOR Outcome Rate Calculator (Version 5.1, April 2023)</a>,
 on the basis of known ineligibles being coded as "NE". It is one accepted
 estimator of <code>e</code>; researchers should use better design-specific information
-when available. The current <code><a href="outcomerate.html">outcomerate()</a></code> API applies one scalar <code>e</code>
-uniformly to <code>UH</code>, <code>UR</code>, and <code>UO</code>; it does not yet accept separate estimates
-for classes of unknown cases.</p>
+when available. This function returns one scalar estimate. Separate
+estimates can be supplied directly to <code><a href="outcomerate.html">outcomerate()</a></code> as a named vector such
+as <code>c(UH = 0.4, UR = 0.7, UO = 0.2)</code>; they cannot be inferred from the
+package's aggregate <code>NE</code> count alone. See
+(Amaya et al. 2025)
+ for category-specific estimation
+guidance.</p>
 <p>The eligibility rate (ELR) is defined as</p><ul><li><p>ELR = (I + P + R + NC + O) / (I + P + R + NC + O + NE)</p></li>
 </ul></div>
     <div id="references">
@@ -109,7 +113,10 @@ for classes of unknown cases.</p>
     <p>The American Association for Public Opinion Research (2023).
 “Standard Definitions: Final Dispositions of Case Codes and Outcome Rates for Surveys.”
 <a href="https://aapor.org/wp-content/uploads/2024/03/Standards-Definitions-10th-edition.pdf" class="external-link">https://aapor.org/wp-content/uploads/2024/03/Standards-Definitions-10th-edition.pdf</a>.
- Valliant R, Dever JA, Kreuter F (2013).
+ Amaya A, Marlar J, English N (2025).
+“Estimating the Eligibility Status of Cases with Unknown Eligibility.”
+American Association for Public Opinion Research.
+<a href="https://aapor.org/wp-content/uploads/2025/10/Estimating-the-Eligibility-Status-of-Cases-with-Unknown-Eligibility_FINAL.pdf" class="external-link">https://aapor.org/wp-content/uploads/2025/10/Estimating-the-Eligibility-Status-of-Cases-with-Unknown-Eligibility_FINAL.pdf</a>.<br><br> Valliant R, Dever JA, Kreuter F (2013).
 <em>Practical Tools for Designing and Weighting Survey Samples</em>,  Statistics for Social and Behavioral Sciences.
 Springer New York.</p>
     </div>

@@ -23,8 +23,9 @@ number (i.e. a fraction) consisting of a summation of frequencies of
 outcome codes (where the matrix entries are nonzero).
 
 The input parameters given by the user are \code{I}, \code{P}, \code{R}, \code{NC}, \code{O}, \code{UH},
-\code{UR}, \code{UO}, and \code{NE}. The parameter \code{e} is multiplied by \code{UH}, \code{UR}, and
-\code{UO} internally to produce \code{eUH}, \code{eUR}, and \code{eUO}.
+\code{UR}, \code{UO}, and \code{NE}. The scalar or category-specific values in \code{e} are
+multiplied by \code{UH}, \code{UR}, and \code{UO} internally to produce the estimated
+eligible counts \code{eUH}, \code{eUR}, and \code{eUO}.
 
 The reason for this implementation is:
 

@@ -20,13 +20,25 @@
 #' * NE = Not eligible (4.0)
 #'
 #' `UR` is the 10th-edition aggregate symbol for 3.20, which the 9th edition
-#' included under `UO`. Legacy `UO` inputs remain supported. With the scalar
-#' `e` used by this package, moving a 3.20 case from `UO` to `UR` does not alter
-#' a rate, but new 3.20 cases should be coded `UR` for standards conformance.
+#' included under `UO`. Legacy `UO` inputs remain supported. With a scalar `e`,
+#' moving a 3.20 case from `UO` to `UR` does not alter a rate. With
+#' category-specific estimates it can, so new 3.20 cases should be coded `UR`
+#' for standards conformance.
 #'
 #' These high-level classes are used to calculate outcome rates that
 #' provide some measure of quality over the fieldwork. These outcome rates
 #' are defined here as follows:
+#'
+#' The formulas below show the traditional scalar form `e(UH + UR + UO)`. If
+#' `e` is supplied by category, that term is evaluated as
+#' `e["UH"] * UH + e["UR"] * UR + e["UO"] * UO`. Each value is the
+#' conditional probability that a case in that unknown category is ultimately
+#' eligible for the survey, following the companion guidance in
+#' \insertCite{aapor_e_2025}{outcomerate}. Calculate `e` separately for each
+#' frame. One vector applies to the cases in one call; combining frames requires
+#' a scientifically justified aggregation. Other design components, modes, or
+#' phases may also require separate estimates when their mechanisms differ.
+#' Document the scientific basis for every estimate.
 #'
 #' __AAPOR Response Rate__
 #'
@@ -93,9 +105,15 @@
 #' @param x a character vector of disposition outcomes (I, P, R, NC, O, UH, UR,
 #'   UO, or NE). Alternatively, a named vector/table of (weighted) disposition
 #'   counts.
-#' @param e a scalar number that specifies the eligibility rate (the estimated
-#'   proportion of unknown cases which are eligible). A default method
-#'   of calculating 'e' is provided by [eligibility_rate()].
+#' @param e a numeric eligibility estimate in `[0, 1]`. A length-one value is
+#'   applied to all unknown dispositions. Alternatively, use a named vector
+#'   such as `c(UH = 0.4, UR = 0.7, UO = 0.2)` for category-specific estimates.
+#'   A non-scalar vector must contain one uniquely named value for every
+#'   unknown category with a positive aggregate count (weighted when `weight`
+#'   is supplied); categories with a zero count may be omitted.
+#'   [eligibility_rate()] provides a default scalar estimate. If an
+#'   `e`-dependent rate is explicitly requested when every unknown category has
+#'   count zero, `e` may be omitted.
 #' @param rate an optional character vector specifying the rates to be
 #'   calculated. If `NULL` (the default), all rates available for the supplied
 #'   value of `e` are returned.
@@ -133,6 +151,10 @@
 #' # calculate all rates
 #' elr <- eligibility_rate(x)
 #' outcomerate(x, e = elr)
+#'
+#' # use separate eligibility estimates for each unknown category
+#' e_by_class <- c(UH = 0.4, UR = 0.7, UO = 0.2)
+#' outcomerate(x, e = e_by_class, rate = c("RR3", "REF2", "CON2"))
 #'
 #' # return only one rate
 #' outcomerate(x, rate = "COOP1")
@@ -184,9 +206,8 @@ outcomerate.numeric <- function(x, e = NULL, rate = NULL, weight = NULL,
   # default to return as many rates as possible
   rate <- rate %||% default_rates(e)
 
-  # assert expectations
-  assert_rate(rate, e)
-  assert_e(e, rate)
+  # assert expectations that do not depend on completed disposition counts
+  assert_rate(rate)
   assert_freq(x)
 
   # ensure vector is complete and ordered
@@ -194,11 +215,13 @@ outcomerate.numeric <- function(x, e = NULL, rate = NULL, weight = NULL,
   x[setdiff(levs, names(x))] <- 0
   x <- x[levs]
 
+  # validate and expand either a global or category-specific eligibility rate
+  assert_e(e, rate, x)
+  e_values <- normalize_e(e, rate)
+
   # estimate eligible unknowns
-  e <- e %||% 0
-  x["eUH"] <- e * x["UH"]
-  x["eUR"] <- e * x["UR"]
-  x["eUO"] <- e * x["UO"]
+  unknowns <- unknown_dispositions()
+  x[paste0("e", unknowns)] <- e_values * x[unknowns]
 
   # assert that order of outcomes match
   stopifnot(all(names(x) == dimnames(fmat)[[1]]))

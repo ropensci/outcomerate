@@ -28,9 +28,12 @@ The present proportional-allocation implementation follows the default used
 in the Excel-based \href{https://aapor.org/wp-content/uploads/2023/06/Response-Rate-Calculator-5-1_04142023.xlsx}{AAPOR Outcome Rate Calculator (Version 5.1, April 2023)},
 on the basis of known ineligibles being coded as "NE". It is one accepted
 estimator of \code{e}; researchers should use better design-specific information
-when available. The current \code{outcomerate()} API applies one scalar \code{e}
-uniformly to \code{UH}, \code{UR}, and \code{UO}; it does not yet accept separate estimates
-for classes of unknown cases.
+when available. This function returns one scalar estimate. Separate
+estimates can be supplied directly to \code{\link[=outcomerate]{outcomerate()}} as a named vector such
+as \code{c(UH = 0.4, UR = 0.7, UO = 0.2)}; they cannot be inferred from the
+package's aggregate \code{NE} count alone. See
+\insertCite{aapor_e_2025}{outcomerate} for category-specific estimation
+guidance.
 
 The eligibility rate (ELR) is defined as
 \itemize{

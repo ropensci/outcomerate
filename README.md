@@ -97,6 +97,22 @@ outcomerate(freq, e = eligibility_rate(freq))
 #> 0.667 0.684 0.889 0.750 0.769
 ```
 
+When the available evidence supports different eligibility estimates for
+the unknown categories, pass them as a named vector. Each value is the
+probability that a case in that category is eligible:
+
+``` r
+e_by_class <- c(UH = 0.4, UR = 0.7, UO = 0.2)
+outcomerate(freq, e = e_by_class, rate = c("RR3", "REF2", "CON2"))
+#>   RR3  REF2  CON2
+#> 0.388 0.097 0.777
+```
+
+A category may be omitted from a non-scalar `e` only when its aggregate
+count is zero (after weighting, when weights are supplied). A length-one
+value—including the result of `eligibility_rate()`—keeps the original
+behavior and applies to every unknown category.
+
 Dispositions do not always come in a tabulated format. Survey analysts
 often work with microdata directly, where each row represents a sampled
 case. The `outcomerate` package allows you to obtain rates using such a

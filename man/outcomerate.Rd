@@ -11,9 +11,15 @@ outcomerate(x, e = NULL, rate = NULL, weight = NULL, return_nd = FALSE)
 UO, or NE). Alternatively, a named vector/table of (weighted) disposition
 counts.}
 
-\item{e}{a scalar number that specifies the eligibility rate (the estimated
-proportion of unknown cases which are eligible). A default method
-of calculating 'e' is provided by \code{\link[=eligibility_rate]{eligibility_rate()}}.}
+\item{e}{a numeric eligibility estimate in \verb{[0, 1]}. A length-one value is
+applied to all unknown dispositions. Alternatively, use a named vector
+such as \code{c(UH = 0.4, UR = 0.7, UO = 0.2)} for category-specific estimates.
+A non-scalar vector must contain one uniquely named value for every
+unknown category with a positive aggregate count (weighted when \code{weight}
+is supplied); categories with a zero count may be omitted.
+\code{\link[=eligibility_rate]{eligibility_rate()}} provides a default scalar estimate. If an
+\code{e}-dependent rate is explicitly requested when every unknown category has
+count zero, \code{e} may be omitted.}
 
 \item{rate}{an optional character vector specifying the rates to be
 calculated. If \code{NULL} (the default), all rates available for the supplied
@@ -51,13 +57,25 @@ respondent (3.20)
 }
 
 \code{UR} is the 10th-edition aggregate symbol for 3.20, which the 9th edition
-included under \code{UO}. Legacy \code{UO} inputs remain supported. With the scalar
-\code{e} used by this package, moving a 3.20 case from \code{UO} to \code{UR} does not alter
-a rate, but new 3.20 cases should be coded \code{UR} for standards conformance.
+included under \code{UO}. Legacy \code{UO} inputs remain supported. With a scalar \code{e},
+moving a 3.20 case from \code{UO} to \code{UR} does not alter a rate. With
+category-specific estimates it can, so new 3.20 cases should be coded \code{UR}
+for standards conformance.
 
 These high-level classes are used to calculate outcome rates that
 provide some measure of quality over the fieldwork. These outcome rates
 are defined here as follows:
+
+The formulas below show the traditional scalar form \code{e(UH + UR + UO)}. If
+\code{e} is supplied by category, that term is evaluated as
+\code{e["UH"] * UH + e["UR"] * UR + e["UO"] * UO}. Each value is the
+conditional probability that a case in that unknown category is ultimately
+eligible for the survey, following the companion guidance in
+\insertCite{aapor_e_2025}{outcomerate}. Calculate \code{e} separately for each
+frame. One vector applies to the cases in one call; combining frames requires
+a scientifically justified aggregation. Other design components, modes, or
+phases may also require separate estimates when their mechanisms differ.
+Document the scientific basis for every estimate.
 
 \strong{AAPOR Response Rate}
 
@@ -146,6 +164,10 @@ x <- c("I", "P", "I", "NC", "UH", "I", "R", "NE",
 # calculate all rates
 elr <- eligibility_rate(x)
 outcomerate(x, e = elr)
+
+# use separate eligibility estimates for each unknown category
+e_by_class <- c(UH = 0.4, UR = 0.7, UO = 0.2)
+outcomerate(x, e = e_by_class, rate = c("RR3", "REF2", "CON2"))
 
 # return only one rate
 outcomerate(x, rate = "COOP1")
