@@ -3,10 +3,10 @@ citHeader("To cite the AAPOR standards or this package, please use:")
 bibentry(bibtype = "Manual",
     title = "Standard Definitions: Final Dispositions of Case Codes and Outcome Rates for Surveys",
     organization = "The American Association for Public Opinion Research (AAPOR)",
-    note = "9th edition",
-    year = "2016",
-    url = "https://aapor.org/wp-content/uploads/2022/11/Standard-Definitions20169theditionfinal.pdf",
-    textVersion  = "The American Association for Public Opinion Research. 2016. Standard Definitions: Final Dispositions of Case Codes and Outcome Rates for Surveys. 9th edition. AAPOR.")
+    note = "10th edition",
+    year = "2023",
+    url = "https://aapor.org/wp-content/uploads/2024/03/Standards-Definitions-10th-edition.pdf",
+    textVersion  = "The American Association for Public Opinion Research. 2023. Standard Definitions: Final Dispositions of Case Codes and Outcome Rates for Surveys. 10th edition. AAPOR.")
 
 bibentry(bibtype = "Misc",
     title = "outcomerate: AAPOR Survey Outcome Rates (R package)",

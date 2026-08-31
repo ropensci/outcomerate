@@ -17,9 +17,13 @@ knitr::opts_chunk$set(
 ```
 # outcomerate
 
-`outcomerate` is a lightweight R package that implements the standard outcome rates for surveys, as defined in the [Standard Definitions](https://aapor.org/wp-content/uploads/2022/11/Standard-Definitions20169theditionfinal.pdf) of the American Association of Public Opinion Research (AAPOR).
+`outcomerate` is a lightweight R package that implements the standard outcome rates for surveys, as defined in the [Standard Definitions, 10th edition](https://aapor.org/wp-content/uploads/2024/03/Standards-Definitions-10th-edition.pdf) of the American Association for Public Opinion Research (AAPOR).
 
-Although the mathematical formulas are straightforward, it can get tedious and repetitive calculating all the rates by hand, especially for sub-groups of your study. The formulas are similar to one another and so it is also dangerously easy to make a clerical mistake. The `outcomerate` package simplifies the analytically workflow by defining all formulas as a collection of functions.
+Although the mathematical formulas are straightforward, it can get tedious and repetitive calculating all the rates by hand, especially for sub-groups of your study. The formulas are similar to one another and so it is also dangerously easy to make a clerical mistake. The `outcomerate` package simplifies the analytical workflow by defining all formulas as a collection of functions.
+
+The 10th edition separates code 3.20 from `UO` under the aggregate symbol `UR`.
+Legacy `UO` data remain supported and produce the same rates when the package's
+scalar eligibility estimate `e` is used; newly coded 3.20 cases should use `UR`.
 
 
 ## Installation
@@ -40,16 +44,16 @@ devtools::install_github("ropensci/outcomerate")
 
 ## Example
 
-Let's say you try to survey 12 people. After finishing the fieldwork, you tabulate all your attempts into a table of disposition outcomes:
+Let's say you draw a sample of 13 cases. After finishing the fieldwork, you tabulate all your attempts into a table of disposition outcomes:
 
-```{r, echo=FALSE, message=FALSE}
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
 library(dplyr)
 library(forcats)
 library(knitr)
 options(digits = 2)
 
 
-x <- c("I", "P", "R", "NC", "O", "UH",  "I", "NE", "I", "I", "P", "UO")
+x <- c("I", "P", "R", "NC", "O", "UH", "UR", "I", "NE", "I", "I", "P", "UO")
 data.frame(code = x) %>%
   mutate(across(code, fct_inorder)) %>%
   mutate(disposition = fct_recode(x, `Complete interview` = "I", 
@@ -58,8 +62,9 @@ data.frame(code = x) %>%
                                   `Non-contact` = "NC",
                                   `Other` = "O",
                                   `Unknown if household` = "UH",
+                                  `Unknown if sampled unit is eligible / housing unit contains an eligible respondent` = "UR",
                                   `Unknown, other` = "UO",
-                                  `Known ineligible` = "NE")) %>%
+                                  `Not eligible` = "NE")) %>%
   count(code, disposition) %>%
   kable()
 ```
@@ -67,35 +72,38 @@ data.frame(code = x) %>%
 Using this table, you may wish to report some of the common survey outcome rates, such as:
 
 * __Response Rate:__ The proportion of your sample that results in an interview.
-* __Cooperation Rate:__ The proportion of people contacted who participate in your survey.
+* __Cooperation Rate:__ The proportion of eligible units ever contacted that result in an interview; the package implements AAPOR's household-level formulas.
 * __Refusal Rate:__ The proportion of your sample that refused to participate.
-* __Contact Rate:__ The proportion of sampled cases where you manage to reach the respondent.
-* __Location Rate:__ The proportion of cases (say, in an establishment survey) that you manage to locate.
+* __Contact Rate:__ The proportion of sampled cases where a responsible member of the housing unit is reached; the package implements AAPOR's household-level formulas.
+* __Location Rate:__ The proportion of cases that you manage to locate. This is
+  a package extension, not an AAPOR-defined rate, and its interpretation depends
+  on how located cases are coded.
 
-Most of these rates come under a number of variants, having definitions that are standardized by AAPOR. The `outcomerate` function lets your calculate these rates seamlessly:
+Most of these rates come under a number of variants, having definitions that are standardized by AAPOR. The `outcomerate` function lets you calculate these rates seamlessly:
 
 ```{r example}
 # load package
 library(outcomerate)
 
 # set counts per disposition code (needs to be a named vector)
-freq <- c(I = 4, P = 2, R = 1, NC = 1, O = 1, UH = 1, UO = 1, NE = 1)
+freq <- c(I = 4, P = 2, R = 1, NC = 1, O = 1,
+          UH = 1, UR = 1, UO = 1, NE = 1)
 
 # calculate rates, assuming 90% of unknown cases are eligible
 outcomerate(freq, e = eligibility_rate(freq))
 ```
 
-Dispositions do not always come in a tabulated format. Survey analysts often work with microdata directly, where each row represents an interview. The `outcomerate` package allows you to obtain rates using such a format as well:
+Dispositions do not always come in a tabulated format. Survey analysts often work with microdata directly, where each row represents a sampled case. The `outcomerate` package allows you to obtain rates using such a format as well:
 
 ```{r example2}
 # define a vector of dispositions
-x <- c("I", "P", "I", "UO", "R", "I", "NC", "I", "O", "P", "UH")
+x <- c("I", "P", "I", "UO", "R", "I", "NC", "I", "O", "P", "UH", "UR")
 
 # calculate desired rates
 outcomerate(x, rate = c("RR2", "CON1"))
 
-# obtain a weighted rate
-w <- c(rep(1.3, 6), rep(2.5, 5))
+# obtain a weighted rate using illustrative base weights
+w <- c(rep(1.3, 6), rep(2.5, 6))
 outcomerate(x, weight = w, rate = c("RR2", "CON1"))
 ```
 

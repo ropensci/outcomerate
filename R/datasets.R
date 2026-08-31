@@ -2,11 +2,11 @@
 #'
 #' The `fmat` object is the internal dataset used by the `outcomerate` package.
 #' It holds all definitions for the outcome rates. With the exception of
-#' location rates, these are taken from the AAPOR Standard Definitions (2016).
+#' location rates, these are taken from the AAPOR Standard Definitions (2023).
 #'
 #' The data is a 3-dimensional binary array consisting of:
-#'   * outcome: codes `I`, `P`, `R`, `NC`, `O`, `UH`, `UO`, `eUH`, `eUO`,
-#'   and `NE`
+#'   * outcome: codes `I`, `P`, `R`, `NC`, `O`, `UH`, `UR`, `UO`, `eUH`,
+#'   `eUR`, `eUO`, and `NE`
 #'   * rate: the shorthand name for the rate (e.g. RR1)
 #'   * side: numerator (NUM) and denominator (DEN)
 #'
@@ -15,8 +15,8 @@
 #' outcome codes (where the matrix entries are nonzero).
 #'
 #' The input parameters given by the user are `I`, `P`, `R`, `NC`, `O`, `UH`,
-#' and `UO`. The parameter `e` is multiplied by `UH` and `UO` internally so as
-#' to produce `eUH` and `eUO`.
+#' `UR`, `UO`, and `NE`. The parameter `e` is multiplied by `UH`, `UR`, and
+#' `UO` internally to produce `eUH`, `eUR`, and `eUO`.
 #'
 #' The reason for this implementation is:
 #'
@@ -36,7 +36,7 @@
 #' @name fmat
 #' @docType data
 #' @references
-#'   \url{https://aapor.org/wp-content/uploads/2022/11/Standard-Definitions20169theditionfinal.pdf}
+#'   \url{https://aapor.org/wp-content/uploads/2024/03/Standards-Definitions-10th-edition.pdf}
 #' @keywords data
 #' @examples
 #' fmat <- outcomerate:::fmat
@@ -47,7 +47,7 @@
 #' # Say we want to know the definition of Response Rate 2, RR2. We see
 #' # below that the numerator (NUM) column is defined by the entries with a 1,
 #' # or (I + P). Likewise, the denominator (DEN) is defined as
-#' # (I + P + R + NC + O + UH + UO)
+#' # (I + P + R + NC + O + UH + UR + UO)
 #' fmat[, "RR2", ]
 #'
 #'
@@ -57,7 +57,8 @@
 #' N = fmat[ , , 1]
 #' D = fmat[ , , 2]
 #' x <- c(I = 5, P = 2, R = 1, NC = 7, O = 3,
-#'       UH = 4, UO = 8,  NE = 1, eUH = 3, eUO = 6)
+#'       UH = 4, UR = 2, UO = 8, NE = 1,
+#'       eUH = 3, eUR = 1.5, eUO = 6)
 #'
 #' # Return all rates
 #' (x %*% N) / (x %*% D)

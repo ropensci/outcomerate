@@ -1,6 +1,6 @@
-pandoc: 2.3.1
-pkgdown: 1.1.0.9000
-pkgdown_sha: 3b3188bfbbd8cc42daa3218f3884b85fd5122372
+pandoc: 3.10.2
+pkgdown: 2.2.0
+pkgdown_sha: ~
 articles:
   intro-to-outcomerate: intro-to-outcomerate.html
-
+last_built: 2026-08-31T21:37Z

@@ -26,7 +26,7 @@ assert_disposition <- function(x) {
 
   if (any(is.na(x))) {
     stop("The input 'x' contains NA values. Consider converting them to \n",
-         "NE (known inelligibles) or UO / UH (unknown elligibility)")
+         "NE (not eligible) or UH / UR / UO (unknown eligibility)")
   }
 
   invisible(TRUE)
@@ -37,7 +37,7 @@ assert_disposition <- function(x) {
 #' @noRd
 assert_freq <- function(x) {
 
-  codes <- c("I", "P", "NC", "R", "O", "UH", "UO", "NE")
+  codes <- c("I", "P", "NC", "R", "O", "UH", "UR", "UO", "NE")
   if (is.null(names(x))) {
     stop("The input 'x' should be a named vector")
   }
@@ -62,14 +62,23 @@ assert_weight <- function(weight, x) {
 
   # conditions that must be met if weight is non-null
   if (!is.null(weight)) {
+    if (!is.numeric(weight)) {
+      stop("weights must be numeric")
+    }
     if (length(weight) != length(x)) {
       stop("weight must be same length as 'x'")
     }
     if (any(is.na(weight))) {
       stop("weights must not contain NA values")
     }
-    if (any(weight == 0)) {
-      warning("weights contain contain zeros")
+    if (any(!is.finite(weight))) {
+      stop("weights must be finite")
+    }
+    if (any(weight < 0)) {
+      stop("weights must be non-negative")
+    }
+    if (all(weight == 0)) {
+      stop("weights must not all be zero")
     }
   }
 
@@ -91,7 +100,7 @@ assert_rate <- function(rate, e) {
     }
 
     # list input rates requiring e
-    emat <- fmat[c("eUH", "eUO"), rate, , drop = FALSE]
+    emat <- fmat[c("eUH", "eUR", "eUO"), rate, , drop = FALSE]
     req_e <- apply(emat, 2, sum) > 0
 
     # throw error if any of the requested rates require e,

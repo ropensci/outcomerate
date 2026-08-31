@@ -24,5 +24,5 @@ default_rates <- function(e = NULL){
 #'
 #' @noRd
 req_e <- function(){
-  names(which(apply(fmat[c("eUH", "eUO"), ,], 2, any)))
+  names(which(apply(fmat[c("eUH", "eUR", "eUO"), ,], 2, any)))
 }

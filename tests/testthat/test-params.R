@@ -82,15 +82,29 @@ test_that("outcomerate should fail if 'x' is numeric and is unnamed", {
   expect_error(outcomerate(c(I = 5, 4)), regexp = msg2)
 })
 
-test_that("outcomerate weights should not include zeros or NAs", {
-  msg1 <- "weights contain contain zeros"
-  msg2 <- "weights must not contain NA values"
-  w1 <- w2 <- rnorm(length(x1), 5)
-  w1[1] <- 0
-  w2[1] <- NA
+test_that("outcomerate validates weights while permitting individual zeros", {
+  w <- rep(1, length(x1))
+  w[1] <- 0
 
-  expect_warning(outcomerate(x1, weight = w1), regexp = msg1)
-  expect_error(outcomerate(x1, weight = w2), regexp = msg2)
+  expect_warning(outcomerate(x1, weight = w), NA)
+  expect_error(
+    outcomerate(x1, weight = replace(w, 1, NA_real_)),
+    regexp = "weights must not contain NA values"
+  )
+  expect_error(
+    outcomerate(x1, weight = replace(w, 1, Inf)),
+    regexp = "weights must be finite"
+  )
+  expect_error(
+    outcomerate(x1, weight = replace(w, 1, -1)),
+    regexp = "weights must be non-negative"
+  )
+  expect_error(
+    outcomerate(x1, weight = as.character(w)),
+    regexp = "weights must be numeric"
+  )
+  expect_error(
+    outcomerate(x1, weight = rep(0, length(x1))),
+    regexp = "weights must not all be zero"
+  )
 })
-
-

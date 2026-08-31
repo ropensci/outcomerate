@@ -7,13 +7,13 @@
 \description{
 The \code{fmat} object is the internal dataset used by the \code{outcomerate} package.
 It holds all definitions for the outcome rates. With the exception of
-location rates, these are taken from the AAPOR Standard Definitions (2016).
+location rates, these are taken from the AAPOR Standard Definitions (2023).
 }
 \details{
 The data is a 3-dimensional binary array consisting of:
 \itemize{
-\item outcome: codes \code{I}, \code{P}, \code{R}, \code{NC}, \code{O}, \code{UH}, \code{UO}, \code{eUH}, \code{eUO},
-and \code{NE}
+\item outcome: codes \code{I}, \code{P}, \code{R}, \code{NC}, \code{O}, \code{UH}, \code{UR}, \code{UO}, \code{eUH},
+\code{eUR}, \code{eUO}, and \code{NE}
 \item rate: the shorthand name for the rate (e.g. RR1)
 \item side: numerator (NUM) and denominator (DEN)
 }
@@ -23,8 +23,8 @@ number (i.e. a fraction) consisting of a summation of frequencies of
 outcome codes (where the matrix entries are nonzero).
 
 The input parameters given by the user are \code{I}, \code{P}, \code{R}, \code{NC}, \code{O}, \code{UH},
-and \code{UO}. The parameter \code{e} is multiplied by \code{UH} and \code{UO} internally so as
-to produce \code{eUH} and \code{eUO}.
+\code{UR}, \code{UO}, and \code{NE}. The parameter \code{e} is multiplied by \code{UH}, \code{UR}, and
+\code{UO} internally to produce \code{eUH}, \code{eUR}, and \code{eUO}.
 
 The reason for this implementation is:
 
@@ -49,7 +49,7 @@ dimnames(fmat)
 # Say we want to know the definition of Response Rate 2, RR2. We see
 # below that the numerator (NUM) column is defined by the entries with a 1,
 # or (I + P). Likewise, the denominator (DEN) is defined as
-# (I + P + R + NC + O + UH + UO)
+# (I + P + R + NC + O + UH + UR + UO)
 fmat[, "RR2", ]
 
 
@@ -59,7 +59,8 @@ fmat[, "RR2", ]
 N = fmat[ , , 1]
 D = fmat[ , , 2]
 x <- c(I = 5, P = 2, R = 1, NC = 7, O = 3,
-      UH = 4, UO = 8,  NE = 1, eUH = 3, eUO = 6)
+      UH = 4, UR = 2, UO = 8, NE = 1,
+      eUH = 3, eUR = 1.5, eUO = 6)
 
 # Return all rates
 (x \%*\% N) / (x \%*\% D)
@@ -70,6 +71,6 @@ numden <- apply(x * fmat, 2:3, sum)
 numden[, 1] / numden[, 2]
 }
 \references{
-\url{https://aapor.org/wp-content/uploads/2022/11/Standard-Definitions20169theditionfinal.pdf}
+\url{https://aapor.org/wp-content/uploads/2024/03/Standards-Definitions-10th-edition.pdf}
 }
 \keyword{data}

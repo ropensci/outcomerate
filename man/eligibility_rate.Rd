@@ -7,13 +7,14 @@
 eligibility_rate(x, weight = NULL)
 }
 \arguments{
-\item{x}{a character vector of disposition outcomes (I, P, R, NC, O, UH, UO,
-U, or NE). Alternatively, a named vector/table of (weighted) disposition
+\item{x}{a character vector of disposition outcomes (I, P, R, NC, O, UH, UR,
+UO, or NE). Alternatively, a named vector/table of (weighted) disposition
 counts.}
 
 \item{weight}{an optional numeric vector that specifies the weight of each
-element in 'x' if x is a character vector. If none is provided (the
-default), an unweighted estimate is returned.}
+element in 'x' if x is a character vector. For probability samples, these
+will normally be base weights (inverse selection probabilities). If none
+is provided (the default), an unweighted estimate is returned.}
 }
 \description{
 Provides an estimate for the proportion of cases of unknown eligibility
@@ -23,9 +24,13 @@ or other sources depending on the type of survey, and approaches to
 calculating 'e' may therefore differ from one survey to the next.
 }
 \details{
-The present implementation follows the default used in the Excel-based \emph{AAPOR
-Outcome Rate Calculator (Version 4.0, May, 2016)} on the basis of
-known ineligibles being coded as "NE".
+The present proportional-allocation implementation follows the default used
+in the Excel-based \href{https://aapor.org/wp-content/uploads/2023/06/Response-Rate-Calculator-5-1_04142023.xlsx}{AAPOR Outcome Rate Calculator (Version 5.1, April 2023)},
+on the basis of known ineligibles being coded as "NE". It is one accepted
+estimator of \code{e}; researchers should use better design-specific information
+when available. The current \code{outcomerate()} API applies one scalar \code{e}
+uniformly to \code{UH}, \code{UR}, and \code{UO}; it does not yet accept separate estimates
+for classes of unknown cases.
 
 The eligibility rate (ELR) is defined as
 \itemize{
@@ -42,17 +47,20 @@ library(outcomerate)
 # P  = Partial interview
 # R  = Refusal and break-off
 # NC = Non-contact
-# O  = Other
-# UH = Unknown if household/occupied housing unit
-# UO = Unknown, other
-# NE = Not eligible
-x <- c("I", "P", "I", "NE", "NC", "UH", "I", "R", "UO", "I", "O", "P", "I")
+# O  = Other eligible non-interview (2.30, 2.90)
+# UH = Unknown if household/occupied housing unit (3.10)
+# UR = Unknown if sampled unit is eligible/housing unit contains an eligible
+#      respondent (3.20)
+# UO = Unknown, other (3.90)
+# NE = Not eligible (4.0)
+x <- c("I", "P", "I", "NE", "NC", "UH", "I", "R", "UR", "UO", "I", "O",
+       "P", "I")
 
-# calculate all rates, assume 80\% of unknown cases are elligble
+# estimate the eligibility rate
 eligibility_rate(x)
 
-# calculate weighted rates
-w <- runif(13, 0, 5)
+# calculate a weighted rate using illustrative base weights
+w <- seq(0.5, 1.8, length.out = length(x))
 eligibility_rate(x, weight = w)
 
 # alternatively, provide input as counts
