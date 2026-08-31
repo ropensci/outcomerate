@@ -6,7 +6,6 @@
 ^LICENSE\.md$
 ^data-raw$
 ^CODE_OF_CONDUCT\.md$
-^\.travis\.yml$
 ^codecov\.yml$
 ^cran-comments\.md$
 ^\.github$

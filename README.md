@@ -1,6 +1,7 @@
 
 <!-- badges: start --> [![R build
-status](https://github.com/ropensci/outcomerate/workflows/R-CMD-check/badge.svg)](https://github.com/ropensci/outcomerate/actions)
+status](https://github.com/ropensci/outcomerate/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ropensci/outcomerate/actions/workflows/R-CMD-check.yaml)
+[![pkgcheck](https://github.com/ropensci/outcomerate/actions/workflows/pkgcheck.yaml/badge.svg)](https://github.com/ropensci/outcomerate/actions/workflows/pkgcheck.yaml)
 [![Coverage
 status](https://codecov.io/gh/ropensci/outcomerate/branch/master/graph/badge.svg)](https://app.codecov.io/github/ropensci/outcomerate?branch=master)
 [![Ropensci
