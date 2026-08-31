@@ -1,7 +1,7 @@
 Package: outcomerate
-Version: 1.0.1.9000
+Version: 1.0.2
 Title: AAPOR Survey Outcome Rates
-Description: Standardized survey outcome rate functions, including the response rate, contact rate, cooperation rate, and refusal rate. These outcome rates allow survey researchers to measure the quality of survey data using definitions published by the American Association of Public Opinion Research (AAPOR). For details on these standards, see AAPOR (2016) <https://www.aapor.org/Standards-Ethics/Standard-Definitions-(1).aspx>. 
+Description: Standardized survey outcome rate functions, including the response rate, contact rate, cooperation rate, and refusal rate. These outcome rates allow survey researchers to measure the quality of survey data using definitions published by the American Association of Public Opinion Research (AAPOR). For details on these standards, see AAPOR (2016) <https://aapor.org/wp-content/uploads/2022/11/Standard-Definitions20169theditionfinal.pdf>.
 Authors@R: c(
     person(given   = "Rafael",
            family  = "Pilliard Hellwig",
@@ -40,6 +40,6 @@ Imports:
 RdMacros: 
     Rdpack
 Language: en-US
-URL: https://docs.ropensci.org/outcomerate, https://github.com/ropensci/outcomerate
+URL: https://docs.ropensci.org/outcomerate/, https://github.com/ropensci/outcomerate
 BugReports: https://github.com/ropensci/outcomerate/issues
 VignetteBuilder: knitr

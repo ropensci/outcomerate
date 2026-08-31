@@ -52,9 +52,11 @@ test_that("Weighted rates produce known expected results", {
 })
 
 test_that("Should return numerator and denominator if asked", {
-  res <- structure(c(12, 15), .Dim = 1:2, .Dimnames = structure(list(
-    rate = "CON1", side = c("NUM", "DEN")
-  ), .Names = c("rate", "side")))
+  res <- structure(
+    c(12, 15),
+    dim = 1:2,
+    dimnames = list(rate = "CON1", side = c("NUM", "DEN"))
+  )
   expect_equal(outcomerate(x1, rate = "CON1", return_nd = TRUE),
     expected = res
   )

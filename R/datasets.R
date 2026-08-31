@@ -5,7 +5,8 @@
 #' location rates, these are taken from the AAPOR Standard Definitions (2016).
 #'
 #' The data is a 3-dimensional binary array consisting of:
-#'   * outcome: codes {I, P, R, NC, O, UH, UO, eUH, eUO, NE}
+#'   * outcome: codes `I`, `P`, `R`, `NC`, `O`, `UH`, `UO`, `eUH`, `eUO`,
+#'   and `NE`
 #'   * rate: the shorthand name for the rate (e.g. RR1)
 #'   * side: numerator (NUM) and denominator (DEN)
 #'
@@ -13,9 +14,9 @@
 #' number (i.e. a fraction) consisting of a summation of frequencies of
 #' outcome codes (where the matrix entries are nonzero).
 #'
-#' The input parameters given by the user are {I, P, R, NC, O, UH, UO} and
-#' the parameter 'e'. The parameter e is multiplied by {UH, UO} internally so
-#' as to produce {eUH, eUO}.
+#' The input parameters given by the user are `I`, `P`, `R`, `NC`, `O`, `UH`,
+#' and `UO`. The parameter `e` is multiplied by `UH` and `UO` internally so as
+#' to produce `eUH` and `eUO`.
 #'
 #' The reason for this implementation is:
 #'
@@ -35,7 +36,7 @@
 #' @name fmat
 #' @docType data
 #' @references
-#'   \url{https://www.aapor.org/Standards-Ethics/Standard-Definitions-(1).aspx}
+#'   \url{https://aapor.org/wp-content/uploads/2022/11/Standard-Definitions20169theditionfinal.pdf}
 #' @keywords data
 #' @examples
 #' fmat <- outcomerate:::fmat
@@ -74,7 +75,8 @@ NULL
 #' conducted in J.R.R. Tolkien's fictional world of Middle Earth.
 #'
 #' Variables contained in the data:
-#'   * __code:__ one of the outcome codes {I, P, R, NC, O, UH, UO, UH, UO, NE}
+#'   * __code:__ one of the outcome codes `I`, `P`, `R`, `NC`, `O`, `UH`,
+#'   `UO`, and `NE`
 #'   * __outcome:__ A human-interpretable label for the `code` variable
 #'   * __researcher__: An identifier for the researcher conducting the interview
 #'   * __region__: The region of the respondent (one of five)

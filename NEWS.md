@@ -1,6 +1,8 @@
-# outcomerate (development version)
+# outcomerate 1.0.2
 
 * Minor updates to vignettes to reflect changes in the tidyverse.
+* Updated legacy citation, documentation, and test attribute syntax for current
+  R and CRAN checks.
 
 # outcomerate 1.0.1
 

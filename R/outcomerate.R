@@ -2,7 +2,7 @@
 #'
 #' Provides standardized outcome rates for surveys, primarily as defined by the
 #' [American Association for Public Opinion Research
-#' (AAPOR)](http://www.aapor.org/). Details can be found in the Standard
+#' (AAPOR)](https://aapor.org/). Details can be found in the Standard
 #' Definitions manual \insertCite{aapor}{outcomerate}.
 #'
 #' Survey and public opinion research often categorizes interview attempts of
@@ -196,4 +196,3 @@ outcomerate.numeric <- function(x, e = NULL, rate = NULL, weight = NULL,
 #' @noRd
 #' @export
 outcomerate.factor <- outcomerate.character
-

@@ -27,7 +27,7 @@ numerator and denominator instead of the rate. Defaults to FALSE.}
 }
 \description{
 Provides standardized outcome rates for surveys, primarily as defined by the
-\href{http://www.aapor.org/}{American Association for Public Opinion Research (AAPOR)}. Details can be
+\href{https://aapor.org/}{American Association for Public Opinion Research (AAPOR)}. Details can be
 found in the Standard Definitions manual \insertCite{aapor}{outcomerate}.
 }
 \details{

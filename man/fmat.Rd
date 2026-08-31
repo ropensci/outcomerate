@@ -6,13 +6,14 @@
 \title{outcomerate Formula Matrix (Internal Data)}
 \description{
 The \code{fmat} object is the internal dataset used by the \code{outcomerate} package.
-It holds all definitions for the outcome rates. With the exception of location
-rates, these are taken from the AAPOR Standard Definitions (2016).
+It holds all definitions for the outcome rates. With the exception of
+location rates, these are taken from the AAPOR Standard Definitions (2016).
 }
 \details{
 The data is a 3-dimensional binary array consisting of:
 \itemize{
-\item outcome: codes {I, P, R, NC, O, UH, UO, eUH, eUO, NE}
+\item outcome: codes \code{I}, \code{P}, \code{R}, \code{NC}, \code{O}, \code{UH}, \code{UO}, \code{eUH}, \code{eUO},
+and \code{NE}
 \item rate: the shorthand name for the rate (e.g. RR1)
 \item side: numerator (NUM) and denominator (DEN)
 }
@@ -21,15 +22,15 @@ Given these three dimensions, each outcome rate can be defined as a rational
 number (i.e. a fraction) consisting of a summation of frequencies of
 outcome codes (where the matrix entries are nonzero).
 
-The input parameters given by the user are {I, P, R, NC, O, UH, UO} and
-the parameter 'e'. The parameter e is multiplied by {UH, UO} internally so as to
-produce {eUH, eUO}.
+The input parameters given by the user are \code{I}, \code{P}, \code{R}, \code{NC}, \code{O}, \code{UH},
+and \code{UO}. The parameter \code{e} is multiplied by \code{UH} and \code{UO} internally so as
+to produce \code{eUH} and \code{eUO}.
 
 The reason for this implementation is:
 
 a) It conforms to a DRY (don't repeat yourself) philosophy by
-holding all definitions in one place. These definitions can be used as upstream
-inputs to functions/test suites requiring them.
+holding all definitions in one place. These definitions can be used as
+upstream inputs to functions/test suites requiring them.
 
 b) It makes it easier to use intermediate steps in the formula calculations.
 For instance, it may be of use to a researchers to want to obtain the
@@ -45,7 +46,7 @@ fmat <- outcomerate:::fmat
 # Print the dimensions
 dimnames(fmat)
 
-# Say we want to know the defintion of Response Rate 2, RR2. We see
+# Say we want to know the definition of Response Rate 2, RR2. We see
 # below that the numerator (NUM) column is defined by the entries with a 1,
 # or (I + P). Likewise, the denominator (DEN) is defined as
 # (I + P + R + NC + O + UH + UO)
@@ -69,6 +70,6 @@ numden <- apply(x * fmat, 2:3, sum)
 numden[, 1] / numden[, 2]
 }
 \references{
-\url{https://www.aapor.org/Standards-Ethics/Standard-Definitions-(1).aspx}
+\url{https://aapor.org/wp-content/uploads/2022/11/Standard-Definitions20169theditionfinal.pdf}
 }
 \keyword{data}

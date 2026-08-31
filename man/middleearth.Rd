@@ -11,14 +11,17 @@ conducted in J.R.R. Tolkien's fictional world of Middle Earth.
 \details{
 Variables contained in the data:
 \itemize{
-\item \strong{code:} one of the outcome codes {I, P, R, NC, O, UH, UO, UH, UO, NE}
+\item \strong{code:} one of the outcome codes \code{I}, \code{P}, \code{R}, \code{NC}, \code{O}, \code{UH},
+\code{UO}, and \code{NE}
 \item \strong{outcome:} A human-interpretable label for the \code{code} variable
 \item \strong{researcher}: An identifier for the researcher conducting the interview
 \item \strong{region}: The region of the respondent (one of five)
 \item \strong{Q1}: A hypothetical binary research question posed to respondents
 \item \strong{Q2}: A hypothetical continuous scale question posed to respondents
-\item \strong{day}: The day the interview took place (1 being the first day of fieldwork)
-\item \strong{race}: The race of the respondent in middle earth (Dwarf, Elf, Hobbit, Man, or Wizard)
+\item \strong{day}: The day the interview took place (1 being the first day of
+fieldwork)
+\item \strong{race}: The race of the respondent in middle earth (Dwarf, Elf, Hobbit,
+Man, or Wizard)
 \item \strong{svywt}: The survey weight (inverse probability of selection)
 }
 }
