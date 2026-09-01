@@ -17,8 +17,12 @@ test_that("UR has the expected unknown-case coefficients", {
     rep(1L, length(estimated_rates))
   )
   expect_true(all(fmat[c("UR", "eUR"), , "NUM"] == 0L))
-  expect_true(all(fmat["UR", c(estimated_rates, unaffected_rates), "DEN"] == 0L))
-  expect_true(all(fmat["eUR", c(direct_rates, unaffected_rates), "DEN"] == 0L))
+  expect_true(
+    all(fmat["UR", c(estimated_rates, unaffected_rates), "DEN"] == 0L)
+  )
+  expect_true(
+    all(fmat["eUR", c(direct_rates, unaffected_rates), "DEN"] == 0L)
+  )
 })
 
 test_that("UR is included in outcome-rate formulas", {

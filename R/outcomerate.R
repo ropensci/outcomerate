@@ -5,8 +5,8 @@
 #' (AAPOR)](https://aapor.org/). Details can be found in the Standard
 #' Definitions manual \insertCite{aapor}{outcomerate}.
 #'
-#' Survey and public opinion research often categorizes interview attempts of
-#' of a survey according to a set of outcome codes as follows:
+#' Survey and public opinion research often categorizes interview attempts for
+#' a survey according to a set of outcome codes as follows:
 #'
 #' * I  = Complete interview
 #' * P  = Partial interview
@@ -127,6 +127,10 @@
 #'   table.
 #' @param return_nd a logical to switch to having the function return the
 #'   numerator and denominator instead of the rate. Defaults to FALSE.
+#' @return If `return_nd = FALSE`, a named numeric vector containing the
+#'   requested outcome rates. If `return_nd = TRUE`, a numeric matrix with one
+#'   row per requested rate and columns `NUM` and `DEN` containing its numerator
+#'   and denominator. Names for weighted rates have a `w` suffix.
 #' @importFrom Rdpack reprompt
 #' @export
 #' @md
@@ -252,7 +256,7 @@ outcomerate_from_counts <- function(x, e = NULL, rate = NULL,
 
   # calculate numerator and denominator
   m <- x * fmat[c(levs, "eUH", "eUR", "eUO"), rate, , drop = FALSE]
-  numden <- apply(m, 2:3, sum, na.rm = TRUE)
+  numden <- colSums(m, dims = 1, na.rm = TRUE)
 
   # if weighted estimate, rename
   if (weighted) {

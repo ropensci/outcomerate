@@ -1,9 +1,11 @@
 
-<!-- badges: start --> [![R build
+<!-- badges: start -->
+
+[![R build
 status](https://github.com/ropensci/outcomerate/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ropensci/outcomerate/actions/workflows/R-CMD-check.yaml)
 [![pkgcheck](https://github.com/ropensci/outcomerate/actions/workflows/pkgcheck.yaml/badge.svg)](https://github.com/ropensci/outcomerate/actions/workflows/pkgcheck.yaml)
 [![Coverage
-status](https://codecov.io/gh/ropensci/outcomerate/branch/master/graph/badge.svg)](https://app.codecov.io/github/ropensci/outcomerate?branch=master)
+status](https://codecov.io/gh/ropensci/outcomerate/branch/main/graph/badge.svg)](https://app.codecov.io/github/ropensci/outcomerate?branch=main)
 [![Ropensci
 status](https://badges.ropensci.org/213_status.svg)](https://github.com/ropensci/software-review/issues/213)
 [![CRAN

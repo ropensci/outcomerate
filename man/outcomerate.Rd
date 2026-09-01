@@ -37,14 +37,20 @@ table.}
 \item{return_nd}{a logical to switch to having the function return the
 numerator and denominator instead of the rate. Defaults to FALSE.}
 }
+\value{
+If \code{return_nd = FALSE}, a named numeric vector containing the
+requested outcome rates. If \code{return_nd = TRUE}, a numeric matrix with one
+row per requested rate and columns \code{NUM} and \code{DEN} containing its numerator
+and denominator. Names for weighted rates have a \code{w} suffix.
+}
 \description{
 Provides standardized outcome rates for surveys, primarily as defined by the
 \href{https://aapor.org/}{American Association for Public Opinion Research (AAPOR)}. Details can be found in the Standard
 Definitions manual \insertCite{aapor}{outcomerate}.
 }
 \details{
-Survey and public opinion research often categorizes interview attempts of
-of a survey according to a set of outcome codes as follows:
+Survey and public opinion research often categorizes interview attempts for
+a survey according to a set of outcome codes as follows:
 \itemize{
 \item I  = Complete interview
 \item P  = Partial interview

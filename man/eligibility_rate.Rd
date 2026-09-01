@@ -17,6 +17,10 @@ will normally be base weights (inverse selection probabilities). If none
 is provided (the default), an unweighted estimate is returned. Weights
 cannot be supplied with an already-aggregated named vector or table.}
 }
+\value{
+A named numeric vector of length one containing the estimated
+eligibility rate, named \code{ELR}.
+}
 \description{
 Provides an estimate for the proportion of cases of unknown eligibility
 that are eligible, as described by \insertCite{vdk}{outcomerate}. The

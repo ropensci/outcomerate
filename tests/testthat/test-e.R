@@ -127,7 +127,11 @@ test_that("category-specific e is validated", {
     "must be named"
   )
   expect_error(
-    outcomerate(counts, e = c(UH = 0.2, UH = 0.3), rate = "RR3"),
+    outcomerate(
+      counts,
+      e = stats::setNames(c(0.2, 0.3), c("UH", "UH")),
+      rate = "RR3"
+    ),
     "must be unique"
   )
   expect_error(
@@ -189,7 +193,7 @@ test_that("UR independently requires an eligibility estimate", {
   )
 })
 
-test_that("weighted category-specific e returns weighted numerator and denominator", {
+test_that("weighted e returns weighted numerator and denominator", {
   nd <- outcomerate(
     c("I", "UH", "UR"),
     e = c(UH = 0.25, UR = 0.5),

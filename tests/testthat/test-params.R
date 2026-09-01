@@ -36,7 +36,7 @@ test_that("outcomerate should fail if foreign dispositions are used", {
   expect_error(outcomerate(c("I", NA_character_)), regexp = msg)
 
   msg <- "Certain names in 'x' are not valid"
-  expect_error(outcomerate(c("I", "ABC"), e = .4), regexp = msg)
+  expect_error(outcomerate(c("I", "ABC"), e = 0.4), regexp = msg)
   expect_error(outcomerate(c(I = 4, ABC = 3, Z = 1)), regexp = msg)
 })
 

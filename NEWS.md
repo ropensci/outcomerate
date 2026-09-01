@@ -10,7 +10,7 @@
 * Aligned weighted-rate guidance with the 10th edition: individual zero weights
   are accepted for two-phase designs, while invalid and all-zero weight vectors
   are rejected. Already-aggregated inputs now reject `weight` instead of
-  silently returning results labelled as weighted.
+  silently returning results labeled as weighted.
 * `outcomerate()` now accepts category-specific eligibility estimates such as
   `e = c(UH = 0.4, UR = 0.7, UO = 0.2)`. Existing scalar `e` inputs retain
   their original behavior.

@@ -25,14 +25,14 @@
 #'
 #' @references \insertRef{aapor}{outcomerate} \insertAllCited
 #'
-#' @param x a character vector of disposition outcomes (I, P, R, NC, O, UH, UR,
-#'   UO, or NE). Alternatively, a named vector/table of (weighted) disposition
-#'   counts.
+#' @inheritParams outcomerate
 #' @param weight an optional numeric vector that specifies the weight of each
 #'   element in 'x' if x is a character vector. For probability samples, these
 #'   will normally be base weights (inverse selection probabilities). If none
 #'   is provided (the default), an unweighted estimate is returned. Weights
 #'   cannot be supplied with an already-aggregated named vector or table.
+#' @return A named numeric vector of length one containing the estimated
+#'   eligibility rate, named `ELR`.
 #' @importFrom Rdpack reprompt
 #' @export
 #' @seealso [outcomerate]
