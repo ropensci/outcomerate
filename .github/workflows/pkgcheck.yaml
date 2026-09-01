@@ -19,3 +19,5 @@ jobs:
       issues: write
     steps:
       - uses: ropensci-review-tools/pkgcheck-action@main
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
